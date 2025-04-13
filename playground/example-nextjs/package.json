@@ -12,10 +12,13 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@omariosouto/common-ui-web": "*",
+    "@tailwindcss/postcss": "^4.1.3",
     "next": "^15.3.0",
+    "postcss": "^8.5.3",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
-    "@omariosouto/common-ui-web": "*"
+    "tailwindcss": "^4.1.3"
   },
   "devDependencies": {
     "@types/node": "^22.14.1",
