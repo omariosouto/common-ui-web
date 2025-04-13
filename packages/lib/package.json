@@ -2,7 +2,7 @@
   "name": "@omariosouto/common-ui-web",
   "version": "1.0.0",
   "type": "module",
-  "main": "dist/index.js",
+  "main": "index.ts",
   "scripts": {
     "build": "tsup",
     "test": "echo 'There are no tests. But things work trust me!'"
@@ -11,13 +11,6 @@
   "author": "",
   "license": "MIT",
   "description": "",
-  "exports": {
-    ".": "./dist/index.js",
-    "./test": "./dist/test.js"
-  },
-  "files": [
-    "dist"
-  ],
   "repository": "https://github.com/omariosouto/common-ui-web",
   "publishConfig": {
     "registry": "https://npm.pkg.github.com"
