@@ -5,11 +5,7 @@
     "emitDeclarationOnly": false,
     "declarationMap": true,
     "outDir": "dist",
-    "jsx": "preserve",
-    "baseUrl": ".",
-    "paths": {
-      "@/*": ["./*"]
-    },
+    "jsx": "preserve"
   },
   "include": ["src"]
 }

@@ -7,8 +7,8 @@
     "dist"
   ],
   "exports": {
-    ".": "./src/index.js",
-    "./test": "./src/test.js"
+    ".": "./src/index.ts",
+    "./test": "./src/test.ts"
   },
   "scripts": {
     "build": "tsup",
