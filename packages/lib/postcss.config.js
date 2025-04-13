@@ -3,4 +3,5 @@ const config = {
     "@tailwindcss/postcss": {},
   },
 };
+
 module.exports = config;
