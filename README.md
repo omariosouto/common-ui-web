@@ -1,1 +1,1 @@
-# @omariosouto/common-web
+# @omariosouto/common-ui-web
