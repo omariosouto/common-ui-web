@@ -1,0 +1,38 @@
+{
+  "name": "@omariosouto/common-ui-web",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsup",
+    "test": "echo 'There are no tests. But things work trust me!'"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "description": "",
+  "exports": {
+    ".": "./dist/index.js",
+    "./test": "./dist/test.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "repository": "https://github.com/omariosouto/common-ui-web",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
+  "peerDependencies": {
+    "react": "^18.0.0 || ^19.0.0",
+    "react-dom": "^18.0.0 || ^19.0.0"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "@types/react": "19.1.1",
+    "@omariosouto/tsconfig": "1.13.11",
+    "tsup": "^8.4.0",
+    "typescript": "^5.0.0"
+  }
+}

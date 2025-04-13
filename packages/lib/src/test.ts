@@ -1,0 +1,1 @@
+export const test = "Something will be exported from here in future";
