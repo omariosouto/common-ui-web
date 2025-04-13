@@ -4,6 +4,7 @@ import {
   Avatar,
   AvatarImage,
   AvatarFallback,
+  Button,
 } from "@omariosouto/common-ui-web";
 
 export default function HomeScreen() {
@@ -16,6 +17,9 @@ export default function HomeScreen() {
         <AvatarFallback className="text-white bg-black">MS</AvatarFallback>
       </Avatar>
       <Text className="text-3xl font-bold underline">Hello World!</Text>
+      <Button>
+        Click me!
+      </Button>
     </Box>
   )
 }
