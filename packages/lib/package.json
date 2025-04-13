@@ -1,6 +1,6 @@
 {
   "name": "@omariosouto/common-ui-web",
-  "version": "1.0.0",
+  "version": "1.0.1-beta20254131744573850PR1",
   "type": "module",
   "main": "dist/index.js",
   "files": [
