@@ -1,4 +1,4 @@
-import { Box, Text } from "@omariosouto/common-ui-web/src/index";
+import { Box, Text } from "@omariosouto/common-ui-web";
 
 
 export default function HomeScreen() {

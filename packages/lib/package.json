@@ -6,6 +6,10 @@
   "files": [
     "dist"
   ],
+  "exports": {
+    ".": "./src/index.ts",
+    "./test": "./src/test.ts"
+  },
   "scripts": {
     "build": "tsup",
     "test": "echo 'There are no tests. But things work trust me!'"
