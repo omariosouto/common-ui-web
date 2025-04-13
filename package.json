@@ -11,6 +11,7 @@
     "bumper": "npm_config_registry=https://npm.pkg.github.com npx @omariosouto/bumper",
     "example": "npm exec --workspace=example-nextjs",
     "dev:example": "npm run example -- npm run dev",
+    "build:example": "npm run example -- npm run build",
     "lib": "npm exec --workspace=@omariosouto/common-ui-web",
     "build": "npm run lib -- npm run build",
     "test": "npm run lib -- npm run test"
