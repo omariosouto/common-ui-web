@@ -8,8 +8,7 @@
   ],
   "exports": {
     ".": "./src/index.ts",
-    "./test": "./src/test.ts",
-    "./css": "./src/css.ts"
+    "./test": "./src/test.ts"
   },
   "scripts": {
     "build": "tsup",
