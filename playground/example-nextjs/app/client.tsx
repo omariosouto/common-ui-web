@@ -7,7 +7,7 @@ export function ToggleTheme() {
 
   return (
     <Box
-      className="flex gap-2"
+      className="flex gap-10"
     >
       <Button
         onClick={() => setTheme("light")}
@@ -29,6 +29,9 @@ export function ToggleTheme() {
         <Text tag="span" className="hidden dark:block text-red-500">dark</Text>
         {/* <Text tag="span" className="block dark:hidden">light</Text> */}
       </Text>
+      <div className="bg-warning text-warning-foreground">
+        aaa
+      </div>
     </Box>
   );
 }
