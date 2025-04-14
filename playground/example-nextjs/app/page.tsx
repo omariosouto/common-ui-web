@@ -1,10 +1,25 @@
-import { Box, Text } from "@omariosouto/common-ui-web";
-
+import {
+  Box,
+  Text,
+  Avatar,
+  AvatarImage,
+  AvatarFallback,
+  Button,
+} from "@omariosouto/common-ui-web";
 
 export default function HomeScreen() {
   return (
     <Box>
-      <Text>Hello World!</Text>
+      <Avatar
+        className="size-12"
+      >
+        <AvatarImage src="https://github.com/omariosouto.png" />
+        <AvatarFallback className="text-white bg-black">MS</AvatarFallback>
+      </Avatar>
+      <Text className="text-3xl font-bold underline">Hello World!</Text>
+      <Button>
+        Click me!
+      </Button>
     </Box>
   )
 }
