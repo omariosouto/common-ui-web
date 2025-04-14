@@ -1,6 +1,5 @@
 import { ThemeProvider } from "@omariosouto/common-ui-web";
-// import "@omariosouto/common-ui-web/globals.css";
-import "./globals.css";
+import "@omariosouto/common-ui-web/globals.css";
 
 export const metadata = {
   title: 'Next.js',
