@@ -1,3 +1,8 @@
+# 1.1.1-beta20254141744631281PR4 - 2025-4-14
+
+In this version, we are adding support for a standardized testing library
+
+
 # 1.1.0 - 2025-4-14
 
 This PR is just adding support to Tailwind CSS over an experimental setup, trying to make shadcn works as a component library

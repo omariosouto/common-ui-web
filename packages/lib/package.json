@@ -1,17 +1,17 @@
 {
   "name": "@omariosouto/common-ui-web",
-  "version": "1.1.0",
+  "version": "1.1.1-beta20254141744631281PR4",
   "type": "module",
   "main": "dist/index.js",
   "files": [
     "dist"
   ],
   "exports": {
-    ".": "./src/index.ts",
-    "./test": "./src/test.ts",
-    "./test-setup": "./src/test-setup.ts",
-    "./test-config": "./src/test-config.ts",
-    "./globals.css": "./src/globals.css"
+    ".": "./dist/index.js",
+    "./test-config": "./dist/test-config.js",
+    "./test-setup": "./dist/test-setup.js",
+    "./test": "./dist/test.js",
+    "./globals.css": "./dist/globals.css"
   },
   "scripts": {
     "build": "tsup",
