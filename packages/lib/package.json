@@ -13,7 +13,7 @@
   },
   "scripts": {
     "build": "tsup",
-    "postbuild": "cp ./globals.css ./dist/globals.css",
+    "postbuild": "cp ./src/globals.css ./dist/globals.css",
     "test": "echo 'There are no tests. But things work trust me!'"
   },
   "keywords": [],
