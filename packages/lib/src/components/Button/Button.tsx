@@ -1,3 +1,3 @@
 "use client"
 
-export { Button } from "../../../components/ui/button";
+export { Button } from "../../_reference/primal/ui/button";

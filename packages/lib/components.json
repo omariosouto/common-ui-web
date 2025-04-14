@@ -1,7 +1,7 @@
 {
   "$schema": "https://ui.shadcn.com/schema.json",
   "style": "new-york",
-  "rsc": false,
+  "rsc": true,
   "tsx": true,
   "tailwind": {
     "config": "",
@@ -11,11 +11,11 @@
     "prefix": ""
   },
   "aliases": {
-    "components": "lib/primal",
-    "utils": "lib/utils",
-    "ui": "lib/primal/ui",
-    "lib": "lib/infra",
-    "hooks": "lib/hooks"
+    "components": "src/_reference/primal",
+    "utils": "src/_reference/infra/utils",
+    "ui": "src/_reference/primal/ui",
+    "lib": "src/_reference/infra",
+    "hooks": "src/_reference/hooks"
   },
   "iconLibrary": "lucide"
 }
