@@ -13,7 +13,7 @@
   },
   "scripts": {
     "build": "tsup",
-    "postbuild": "sed -i '' 's#\"./test\": \"./dist/test.js\"#\"./test\": \"./dist/test.js\", \"./globals.css\": \"./src/globals.css\"#g' package.json && cp ./src/globals.css ./dist/globals.css",
+    "postbuild": "sed -i '' 's#\"./test\": \"./dist/test.js\"#\"./test\": \"./dist/test.js\", \"./globals.css\": \"./dist/globals.css\"#g' package.json && cp ./src/globals.css ./dist/globals.css",
     "test": "echo 'There are no tests. But things work trust me!'"
   },
   "keywords": [],
