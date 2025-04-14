@@ -12,6 +12,7 @@
     "example": "npm exec --workspace=example-nextjs",
     "dev:example": "npm run example -- npm run dev",
     "build:example": "npm run example -- npm run build",
+    "test:example": "npm run example -- npm run test",
     "lib": "npm exec --workspace=@omariosouto/common-ui-web",
     "build": "npm run lib -- npm run build",
     "test": "npm run lib -- npm run test"

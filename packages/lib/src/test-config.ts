@@ -1,5 +1,4 @@
 import react from '@vitejs/plugin-react'
-import { UserConfig } from "vite";
 
 export const testConfig = {
   plugins: [react()],
@@ -8,6 +7,6 @@ export const testConfig = {
     environment: 'jsdom',
     // hey! 👋 over here
     globals: true,
-    setupFiles: './src/tests/setup.ts', // assuming the test folder is in the root of our project
+    setupFiles: '.setup/tests.ts', // assuming the test folder is in the root of our project
   }
-} as UserConfig;
+};

@@ -1,0 +1,1 @@
+import "@omariosouto/common-ui-web/test-setup";

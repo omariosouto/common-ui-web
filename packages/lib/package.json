@@ -10,6 +10,7 @@
     ".": "./src/index.ts",
     "./test": "./src/test.ts",
     "./test-setup": "./src/test-setup.ts",
+    "./test-config": "./src/test-config.ts",
     "./globals.css": "./src/globals.css"
   },
   "scripts": {
