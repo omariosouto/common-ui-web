@@ -1,1 +1,2 @@
-export const test = "Something will be exported from here in future";
+export * from "./tests/testing-library";
+export * from "vitest";
