@@ -3,7 +3,7 @@ import { defineConfig } from 'tsup'
 
 const entry = fs
   .readdirSync('src')
-  .filter((file) => file.endsWith('.ts') || file.endsWith('.tsx'))
+  .filter((file) => file.endsWith('.ts') || file.endsWith('.tsx') || file.endsWith('.css'))
   .map((file) => `src/${file}`);
 
 const packageJSONExports = entry.reduce((fileExports, file) => {
