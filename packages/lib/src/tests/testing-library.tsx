@@ -1,6 +1,8 @@
 import React from "react";
 import { render, RenderOptions, RenderResult } from '@testing-library/react';
 
+export { screen } from '@testing-library/react';
+
 // Define the props type for AllTheProviders
 type AllTheProvidersProps = {
   children: React.ReactNode;
