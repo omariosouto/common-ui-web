@@ -1,6 +1,11 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+/* Possible Imports */
+@source "../../../packages/lib";
+@source "../node_modules/@omariosouto/common-ui-web";
+/* ================ */
+
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
