@@ -1,3 +1,4 @@
+import { ThemeProvider } from "@omariosouto/common-ui-web";
 import "@omariosouto/common-ui-web/globals.css";
 
 export const metadata = {
@@ -11,8 +12,17 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
-      <body>{children}</body>
+    <html lang="en" suppressHydrationWarning>
+      <body>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          {children}
+        </ThemeProvider>
+      </body>
     </html>
   )
 }

@@ -2,12 +2,15 @@ import React, { JSX } from "react";
 
 interface BoxProps {
   tag?: string;
+  className?: string;
   children: React.ReactNode;
 }
 export function Box({
-  children
+  tag,
+  children,
+  className,
 }: BoxProps) {
-  const Tag = "div" as keyof JSX.IntrinsicElements;
+  const Tag = tag as keyof JSX.IntrinsicElements || "div" as keyof JSX.IntrinsicElements;
 
-  return <Tag>{children}</Tag>;
+  return <Tag className={className}>{children}</Tag>;
 }
