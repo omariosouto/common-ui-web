@@ -1,1 +1,1 @@
-export * from "./src/index";
+src/index.ts

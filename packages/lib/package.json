@@ -9,6 +9,7 @@
   "exports": {
     ".": "./src/index.ts",
     "./test": "./src/test.ts",
+    "./test-setup": "./src/test-setup.ts",
     "./globals.css": "./src/globals.css"
   },
   "scripts": {
