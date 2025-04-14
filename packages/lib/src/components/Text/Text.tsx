@@ -6,10 +6,11 @@ interface TextProps {
   children: React.ReactNode;
 }
 export function Text({
+  tag,
   children,
   className,
 }: TextProps) {
-  const Tag = "p" as keyof JSX.IntrinsicElements;
+  const Tag = tag as keyof JSX.IntrinsicElements || "p" as keyof JSX.IntrinsicElements;
 
   return <Tag className={className}>{children}</Tag>;
 }

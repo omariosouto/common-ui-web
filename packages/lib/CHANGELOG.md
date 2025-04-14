@@ -1,3 +1,8 @@
+# 1.1.2 - 2025-4-14
+
+This PR exposes an API to make easier to work with custom themes
+
+
 # 1.1.1 - 2025-4-14
 
 In this version, we are adding support for a standardized testing library
