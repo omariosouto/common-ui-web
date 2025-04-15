@@ -1,3 +1,8 @@
+# 1.1.4 - 2025-4-15
+
+Just exposing the entrypoint `"@omariosouto/common-ui-web/components"` to make direct access to components only, considering that the library will have more scopes
+
+
 # 1.1.3 - 2025-4-15
 
 Just adding support to dev mode with a interactive docs
