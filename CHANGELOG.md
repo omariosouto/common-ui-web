@@ -1,3 +1,10 @@
+# 1.1.5-beta20254151744734949PR8 - 2025-4-15
+
+The idea is to provide an alternative to useState, when handling asyncData providing structures to:
+- `enabled`: Control WHEN they run, and make the requests be queued based on others
+- ...
+
+
 # 1.1.4 - 2025-4-15
 
 Just exposing the entrypoint `"@omariosouto/common-ui-web/components"` to make direct access to components only, considering that the library will have more scopes
