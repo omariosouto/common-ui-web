@@ -5,7 +5,7 @@ import {
   AvatarImage,
   AvatarFallback,
   Button,
-} from "@omariosouto/common-ui-web";
+} from "@omariosouto/common-ui-web/components";
 import { ToggleTheme } from "./client";
 
 export default function HomeScreen() {
