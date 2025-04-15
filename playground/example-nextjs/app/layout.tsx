@@ -1,4 +1,5 @@
-import { ThemeProvider } from "@omariosouto/common-ui-web";
+import { ThemeProvider } from "@omariosouto/common-ui-web/components";
+import { AsyncStateProvider } from "@omariosouto/common-ui-web/state";
 import "@omariosouto/common-ui-web/globals.css";
 
 export const metadata = {
@@ -14,14 +15,16 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          {children}
-        </ThemeProvider>
+        <AsyncStateProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            {children}
+          </ThemeProvider>
+        </AsyncStateProvider>
       </body>
     </html>
   )
