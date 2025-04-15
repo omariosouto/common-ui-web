@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { ThemeProvider, useTheme } from './ThemeProvider';
+import { ThemeProvider, themes, useTheme } from './ThemeProvider';
 import { Button } from "../Button/Button";
 import { Box } from "../Box/Box";
 import { Text } from "../Text/Text";
@@ -58,8 +58,8 @@ function ThemeSwitcher() {
           Default System
         </Button>
       </div>
-      {["light", "dark"].map((theme) => (
-        <ThemeView theme={theme} />
+      {themes.map((theme) => (
+        <ThemeView key={theme} theme={theme} />
       ))}
     </div>
   );

@@ -4,7 +4,16 @@ import * as React from "react"
 import {
   ThemeProvider as NextThemesProvider,
   useTheme as useNextTheme,
-} from "next-themes"
+} from "next-themes";
+
+export const themes = [
+  "light",
+  "dark",
+  "theme-ruby",
+  "theme-ruby-dark",
+  "theme-amethyst",
+  "theme-amethyst-dark",
+] as const;
 
 export function ThemeProvider({
   children,
@@ -16,6 +25,7 @@ export function ThemeProvider({
       defaultTheme="system"
       enableSystem
       disableTransitionOnChange
+      themes={themes as unknown as string[]}
       {...props}
     >
       {children}
