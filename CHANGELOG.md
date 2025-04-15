@@ -1,3 +1,8 @@
+# 1.1.3-beta20254151744682478PR6 - 2025-4-15
+
+Just adding support to dev mode with a interactive docs
+
+
 # 1.1.2 - 2025-4-14
 
 This PR exposes an API to make easier to work with custom themes
