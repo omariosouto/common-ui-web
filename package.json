@@ -15,6 +15,7 @@
     "test:example": "npm run example -- npm run test",
     "lib": "npm exec --workspace=@omariosouto/common-ui-web",
     "dev": "npm run lib -- npm run docs",
+    "dev:build": "npm run lib -- npm run docs:build",
     "build": "npm run lib -- npm run build",
     "test": "npm run lib -- npm run test"
   },
