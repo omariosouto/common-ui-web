@@ -1,6 +1,6 @@
 "use client";
 
-import { Box, Button, Text, useTheme } from "@omariosouto/common-ui-web";
+import { Box, Button, Text, useTheme } from "@omariosouto/common-ui-web/components";
 
 export function ToggleTheme() {
   const { setTheme } = useTheme();

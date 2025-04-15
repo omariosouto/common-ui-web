@@ -1,1 +1,1 @@
-export * from './components/index';
+export const __brand__ = "common-ui-web";

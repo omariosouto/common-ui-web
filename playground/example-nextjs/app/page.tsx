@@ -7,6 +7,7 @@ import {
   Button,
 } from "@omariosouto/common-ui-web/components";
 import { ToggleTheme } from "./client";
+import Link from "next/link";
 
 export default function HomeScreen() {
   return (
@@ -22,6 +23,12 @@ export default function HomeScreen() {
       <Button>
         Click me!
       </Button>
+
+      <Box>
+        <Link href="/async-state">
+          <Text className="text-2xl font-bold">- Go to async state demo</Text>
+        </Link>
+      </Box>
     </Box>
   )
 }
