@@ -7,6 +7,11 @@ export interface GitHubUser {
   html_url: string;
   followers: number;
   following: number;
+  repos_url: string;
+}
+
+export interface GitHubRepo {
+  full_name: string;
 }
 
 export async function getGitHubUserInfo(githubUser: string): Promise<GitHubUser> {

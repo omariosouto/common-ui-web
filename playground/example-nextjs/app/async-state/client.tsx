@@ -1,31 +1,72 @@
 "use client";
 import { useAsyncState } from "@omariosouto/common-ui-web/state";
-import { Box, Text } from "@omariosouto/common-ui-web/components";
-import { getGitHubUserInfo, GitHubUser } from "./httpClient";
+import { Box, Button, Text } from "@omariosouto/common-ui-web/components";
+import { getGitHubUserInfo, GitHubRepo, GitHubUser } from "./httpClient";
 
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export default function GitHubClientView({
   githubUserLogin,
-  githubUser
+  // githubUser
 }: {
   githubUserLogin: string;
   githubUser?: GitHubUser;
 }) {
   const profileQuery = useAsyncState<GitHubUser>({
     queryKey: ["profile"],
-    queryFn: async (): Promise<GitHubUser> => {
+    queryFn: async () => {
       await sleep(1000);
       return getGitHubUserInfo(githubUserLogin);
     },
-    initialData: githubUser,
+    // initialData: githubUser,
+  });
+
+  const reposQuery = useAsyncState<GitHubRepo[]>({
+    queryKey: ["repos"],
+    queryFn: async () => {
+      await sleep(1000);
+      return fetch(`https://api.github.com/users/${githubUserLogin}/repos`)
+        .then((res) => {
+          return res.json();
+        })
+        .then((data) => {
+          return data as GitHubRepo[];
+        });
+    },
+    // This only runs if the initial query is already loaded
+    enabled: Boolean(profileQuery.data),
   });
 
   return (
     <Box>
       <Text tag="h1">
         {profileQuery.data?.login}
+        {profileQuery.isLoading && <Text>Loading user...</Text>}
       </Text>
+      {reposQuery.isLoading && <Text>Loading...</Text>}
+      {reposQuery.isError && (
+        <Box>
+          <Text>Error: {reposQuery.error.message}</Text>
+          <Button
+            onClick={() => {
+              reposQuery.refetch();
+            }}
+          >
+            Retry
+          </Button>
+        </Box>
+      )}
+      {!reposQuery.isLoading && (
+        <ul>
+          {reposQuery.data?.map((repo) => (
+            <li key={repo.full_name}>
+              <Text tag="h2">
+                {repo.full_name}
+              </Text>
+            </li>
+          ))}
+        </ul>
+      )}
     </Box>
   );
 }
