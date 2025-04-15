@@ -1,16 +1,11 @@
-import { useAsyncState } from "@omariosouto/common-ui-web/state";
-import { Box, Text } from "@omariosouto/common-ui-web/components";
+"use server";
+import { Box } from "@omariosouto/common-ui-web/components";
+import GitHubClientView from "./client";
 
-export default function Screen() {
-  const profileQuery = useAsyncState({
-
-  })
-
+export default async function Screen() {
   return (
     <Box>
-      <Text tag="h1">
-        This is a test screen for the async state.
-      </Text>
+      <GitHubClientView />
     </Box>
   );
 }

@@ -1,5 +1,4 @@
-import { QueryClient, QueryClientProvider, useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 
-export const AsyncStateClient = QueryClient;
-export const AsyncStateProvider = QueryClientProvider;
+export { AsyncStateProvider } from "./AsyncStateProvider";
 export const useAsyncState = useQuery;
