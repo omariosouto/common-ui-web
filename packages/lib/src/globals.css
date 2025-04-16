@@ -8,8 +8,11 @@
 
 @custom-variant dark (&:is(
   .theme-default-dark *,
+  html[class*="dark"] .theme-default *,
   .theme-ruby-dark *,
+  html[class*="dark"] .theme-ruby *,
   .theme-amethyst-dark *
+  html[class*="dark"] .theme-amethyst *,
 ));
 
 @theme inline {
@@ -50,7 +53,8 @@
   --color-sidebar-ring: var(--sidebar-ring);
 }
 
-:root, .theme-default-light {
+:root, .theme-default-light,
+html[class*="light"] .theme-default {
   --radius: 0.625rem;
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
@@ -85,7 +89,8 @@
   --sidebar-ring: oklch(0.708 0 0);
 }
 
-.theme-default-dark {
+.theme-default-dark,
+html[class*="dark"] .theme-default {
   --background: oklch(0.145 0 0);
   --foreground: oklch(0.985 0 0);
   --card: oklch(0.205 0 0);
@@ -119,7 +124,8 @@
   --sidebar-ring: oklch(0.556 0 0);
 }
 
-.theme-ruby-light {
+.theme-ruby-light,
+html[class*="light"] .theme-ruby {
   --radius: 0.5rem;
   --background: oklch(1 0 0);
   --foreground: oklch(0.141 0.005 285.823);
@@ -154,7 +160,8 @@
   --sidebar-ring: oklch(0.637 0.237 25.331);
 }
 
-.theme-ruby-dark {
+.theme-ruby-dark,
+html[class*="dark"] .theme-ruby {
   --background: oklch(0.141 0.005 285.823);
   --foreground: oklch(0.985 0 0);
   --card: oklch(0.21 0.006 285.885);
@@ -188,7 +195,8 @@
   --sidebar-ring: oklch(0.637 0.237 25.331);
 }
 
-.theme-amethyst-light {
+.theme-amethyst-light,
+html[class*="light"] .theme-amethyst {
   --radius: 0.5rem;
   --background: oklch(1 0 0);
   --foreground: oklch(0.141 0.005 285.823);
@@ -223,7 +231,8 @@
   --sidebar-ring: oklch(0.606 0.25 292.717);
 }
 
-.theme-amethyst-dark {
+.theme-amethyst-dark,
+html[class*="dark"] .theme-amethyst {
   --background: oklch(0.141 0.005 285.823);
   --foreground: oklch(0.985 0 0);
   --card: oklch(0.21 0.006 285.885);
@@ -256,8 +265,6 @@
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.541 0.281 293.009);
 }
-
-
 
 @layer base {
   * {

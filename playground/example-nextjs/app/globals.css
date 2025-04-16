@@ -2,12 +2,17 @@
 
 @custom-variant dark (&:is(
   .theme-default-dark *,
+  html[class*="dark"] .theme-default *,
   .theme-ruby-dark *,
+  html[class*="dark"] .theme-ruby *,
   .theme-amethyst-dark *,
-  .theme-emerald-dark *
+  html[class*="dark"] .theme-amethyst *,
+  .theme-emerald-dark *,
+  html[class*="dark"] .theme-emerald *
 ));
 
-.theme-emerald-light {
+.theme-emerald-light,
+html[class*="light"] .theme-emerald {
   --radius: 0.5rem;
   --background: oklch(1 0 0);
   --foreground: oklch(0.141 0.005 285.823);
@@ -42,7 +47,8 @@
   --sidebar-ring: oklch(0.723 0.219 149.579);
 }
 
-.theme-emerald-dark {
+.theme-emerald-dark,
+html[class*="dark"] .theme-emerald {
   --background: oklch(0.141 0.005 285.823);
   --foreground: oklch(0.985 0 0);
   --card: oklch(0.21 0.006 285.885);

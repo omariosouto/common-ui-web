@@ -1,6 +1,6 @@
 "use client";
 
-import { Box, Button, Text, themeModes, themes, useTheme } from "@omariosouto/common-ui-web/components";
+import { Box, Button, Text, SubTheme, themes, useTheme } from "@omariosouto/common-ui-web/components";
 import { localThemes } from "./consts";
 import React from "react";
 
@@ -34,50 +34,11 @@ export function ToggleTheme() {
       ))}
       <SubTheme themeName="emerald">
         <div className="bg-warning text-warning-foreground">
-          <Button suppressHydrationWarning>
+          <Button>
             Sample button on emerald theme always
           </Button>
         </div>
       </SubTheme>
     </Box>
-  );
-}
-
-function SubTheme({
-  themeName,
-  children,
-}: {
-  themeName: string;
-  children: React.ReactNode;
-}) {
-  const { getMode } = useTheme();
-  const [mode, setMode] = React.useState<"light" | "dark">("light");
-  const currentMode = mode;
-
-  React.useEffect(() => {
-    const handleChange = (e: MediaQueryListEvent) => {
-      setMode(e.matches ? "dark" : "light");
-    };
-    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
-    const isDark = mediaQuery.matches;
-    const browserMode = isDark ? "dark" : "light";
-    setMode(browserMode);
-    mediaQuery.addEventListener("change", handleChange);
-
-    console.log(browserMode);
-
-    return () => {
-      mediaQuery.removeEventListener("change", handleChange);
-    };
-  }, [setMode]);
-
-  console.log("[render:mode]", mode, getMode(), currentMode);
-
-  return (
-    <div
-      className={`theme-${themeName}-${currentMode}`}
-    >
-      {children}
-    </div>
   );
 }

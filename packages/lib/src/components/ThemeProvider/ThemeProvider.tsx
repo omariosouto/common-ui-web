@@ -5,6 +5,7 @@ import {
   ThemeProvider as NextThemesProvider,
   useTheme as useNextTheme,
 } from "next-themes";
+import { cn } from "../../_reference/infra/utils";
 
 export const themes = [
   "theme-default-light",
@@ -86,4 +87,25 @@ export function useTheme() {
       nextTheme.setTheme(newTheme)
     },
   };
+}
+
+export function SubTheme({
+  themeName,
+  children,
+  className,
+}: {
+  themeName: string;
+  children: React.ReactNode;
+  className?: string;
+}) {
+  return (
+    <div
+      className={cn(
+        `theme-${themeName}`,
+        className,
+      )}
+    >
+      {children}
+    </div>
+  );
 }
