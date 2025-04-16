@@ -1,3 +1,8 @@
+# 1.1.7-beta20254161744763525PR10 - 2025-4-16
+
+Just creating a dedicated entrypoint for all providers available in the application
+
+
 # 1.1.6 - 2025-4-16
 
 This PR makes all necessary changes to enable multi-theme support by default through Tailwind and shadcn based on this https://ui.shadcn.com/themes
