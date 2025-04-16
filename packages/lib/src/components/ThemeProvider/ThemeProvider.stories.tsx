@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { ThemeProvider, themes, useTheme } from './ThemeProvider';
+import { ThemeProvider, themeNames, useTheme } from './ThemeProvider';
 import { Button } from "../Button/Button";
 import { Box } from "../Box/Box";
 import { Text } from "../Text/Text";
@@ -36,13 +36,15 @@ export const Primary: Story = {
 };
 
 function ThemeSwitcher() {
-  const { setTheme, resolvedTheme } = useTheme();
+  const { setTheme, resolvedTheme, getMode } = useTheme();
 
   return (
     <div
       className="bg-background text-foreground w-full h-full flex flex-col items-center justify-center p-10"
     >
-      <h1>
+      <h1
+        className="mb-5 text-2xl"
+      >
         Theme Switcher
         <span>
           Current (mode)
@@ -54,25 +56,39 @@ function ThemeSwitcher() {
         className="mb-10"
       >
         <Button onClick={() => setTheme('light')}>
-          Default Light
+          Mode Light
         </Button>
         <Button onClick={() => setTheme('dark')}>
-          Default Dark
+          Mode Dark
         </Button>
         <Button onClick={() => setTheme('system')}>
-          Default System
+          Mode System
         </Button>
       </div>
-      {themes.map((theme) => (
-        <ThemeView key={theme} theme={theme} />
+      {resolvedTheme}
+      {themeNames.map((theme) => (
+        <>
+          <ThemeView key={theme} theme={`theme-${theme}-light`} mode={getMode()} />
+          <ThemeView key={theme} theme={`theme-${theme}-dark`} mode={getMode()} />
+        </>
+      ))}
+      <h2
+        className="mt-10 mb-5 text-2xl"
+      >
+        Multiple themes on same page
+      </h2>
+      {themeNames.map((theme) => (
+        <ThemeView key={theme} theme={`theme-${theme}-${getMode()}`} mode={getMode()} />
       ))}
     </div>
   );
 
   function ThemeView({
-    theme
+    theme,
+    mode,
   }: {
-    theme: string
+    theme: string;
+    mode: string;
   }) {
     return (
       <Box className={cn(
@@ -80,7 +96,7 @@ function ThemeSwitcher() {
         "w-full bg-background text-foreground"
       )}>
         <Text>
-          [sub-theme][{theme}] - [theme][{resolvedTheme}]
+          [sub-theme][{theme}] - [theme][{resolvedTheme}] - [mode][{mode}]
         </Text>
         <Button onClick={() => setTheme(theme)}>
           Button

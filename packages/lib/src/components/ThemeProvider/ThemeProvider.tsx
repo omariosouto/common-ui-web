@@ -7,12 +7,23 @@ import {
 } from "next-themes";
 
 export const themes = [
+  "theme-default-light",
+  "theme-default-dark",
+  "theme-ruby-light",
+  "theme-ruby-dark",
+  "theme-amethyst-light",
+  "theme-amethyst-dark",
+] as const;
+
+export const themeNames = [
+  "default",
+  "ruby",
+  "amethyst",
+] as const;
+
+export const themeModes = [
   "light",
   "dark",
-  "theme-ruby",
-  "theme-ruby-dark",
-  "theme-amethyst",
-  "theme-amethyst-dark",
 ] as const;
 
 
@@ -25,13 +36,14 @@ export function ThemeProvider({
   extraThemes = [],
   ...props
 }: ThemeProviderProps) {
+  const appThemes = [...themes, ...extraThemes] as string[];
   return (
     <NextThemesProvider
       attribute="class"
       defaultTheme="system"
       enableSystem
       disableTransitionOnChange
-      themes={[...themes, ...extraThemes] as string[]}
+      themes={appThemes}
       {...props}
     >
       {children}
@@ -40,7 +52,37 @@ export function ThemeProvider({
 }
 
 export function useTheme() {
-  const nextTheme = useNextTheme()
+  const nextTheme = useNextTheme();
 
-  return nextTheme;
+  return {
+    ...nextTheme,
+    getMode() {
+      const [,,currentModeName] = nextTheme?.theme?.split("-") || ["theme", "default", "light"];
+      
+      return currentModeName;
+    },
+    setTheme: (newTheme: string) => {
+      const [, currentThemeName] = nextTheme?.theme?.split("-") || ["theme", "default", "light"];
+
+      if(newTheme === "light") {
+        const theme = `theme-${currentThemeName}-light`;
+        nextTheme.setTheme(theme)
+        return;
+      }
+
+      if(newTheme === "dark") {
+        const theme = `theme-${currentThemeName}-dark`;
+        nextTheme.setTheme(theme)
+        return; 
+      }
+
+      if(newTheme === "system") {
+        const theme = `theme-${currentThemeName}-${nextTheme.systemTheme}`;
+        nextTheme.setTheme(theme)
+        return;
+      }
+
+      nextTheme.setTheme(newTheme)
+    },
+  };
 }

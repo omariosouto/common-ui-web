@@ -1,6 +1,7 @@
 "use client";
 
 import { Box, Button, Text, themes, useTheme } from "@omariosouto/common-ui-web/components";
+import { localThemes } from "./consts";
 
 export function ToggleTheme() {
   const { setTheme } = useTheme();
@@ -21,8 +22,7 @@ export function ToggleTheme() {
       </Button>
       {[
         ...themes,
-        "theme-emerald",
-        "theme-emerald-dark",
+        ...localThemes,
       ].map((theme) => (
         <Button
           key={theme}

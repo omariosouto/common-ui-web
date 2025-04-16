@@ -1,6 +1,7 @@
 import { AsyncStateProvider, ThemeProvider } from "@omariosouto/common-ui-web/providers";
 import "@omariosouto/common-ui-web/globals.css";
 import "./globals.css" // Import to enable local themes
+import { localThemes } from "./consts";
 
 export const metadata = {
   title: 'Next.js',
@@ -17,7 +18,7 @@ export default function RootLayout({
       <body>
         <AsyncStateProvider>
           <ThemeProvider
-            extraThemes={["theme-emerald", "theme-emerald-dark"]}
+            extraThemes={localThemes}
           >
             {children}
           </ThemeProvider>

@@ -6,7 +6,11 @@
 @source "../node_modules/@omariosouto/common-ui-web";
 /* ================ */
 
-@custom-variant dark (&:is(.dark *, .theme-ruby-dark *, .theme-amethyst-dark *));
+@custom-variant dark (&:is(
+  .theme-default-dark *,
+  .theme-ruby-dark *,
+  .theme-amethyst-dark *
+));
 
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
@@ -46,7 +50,7 @@
   --color-sidebar-ring: var(--sidebar-ring);
 }
 
-:root, .light {
+:root, .theme-default-light {
   --radius: 0.625rem;
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
@@ -81,7 +85,7 @@
   --sidebar-ring: oklch(0.708 0 0);
 }
 
-.dark {
+.theme-default-dark {
   --background: oklch(0.145 0 0);
   --foreground: oklch(0.985 0 0);
   --card: oklch(0.205 0 0);
@@ -115,7 +119,7 @@
   --sidebar-ring: oklch(0.556 0 0);
 }
 
-.theme-ruby {
+.theme-ruby-light {
   --radius: 0.5rem;
   --background: oklch(1 0 0);
   --foreground: oklch(0.141 0.005 285.823);
@@ -184,7 +188,7 @@
   --sidebar-ring: oklch(0.637 0.237 25.331);
 }
 
-.theme-amethyst {
+.theme-amethyst-light {
   --radius: 0.5rem;
   --background: oklch(1 0 0);
   --foreground: oklch(0.141 0.005 285.823);
