@@ -5,7 +5,7 @@ import { localThemes } from "./consts";
 import React from "react";
 
 export function ToggleTheme() {
-  const { setTheme, getMode } = useTheme();
+  const { setTheme } = useTheme();
 
   return (
     <Box

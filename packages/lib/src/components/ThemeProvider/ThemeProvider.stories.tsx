@@ -67,19 +67,24 @@ function ThemeSwitcher() {
       </div>
       {resolvedTheme}
       {themeNames.map((theme) => (
-        <>
-          <ThemeView key={theme} theme={`theme-${theme}-light`} mode={getMode()} />
-          <ThemeView key={theme} theme={`theme-${theme}-dark`} mode={getMode()} />
-        </>
+        <div key={theme}>
+          <ThemeView theme={`theme-${theme}-light`} mode={getMode()} />
+          <ThemeView theme={`theme-${theme}-dark`} mode={getMode()} />
+        </div>
       ))}
       <h2
         className="mt-10 mb-5 text-2xl"
       >
         Multiple themes on same page
+        <span>
+          Current (mode)
+          <span className="hidden dark:inline-block text-red-500">dark</span>
+          <span className="inline-block dark:hidden text-blue-500">light</span>
+        </span>
       </h2>
       {resolvedTheme}
       {themeNames.map((theme) => (
-        <ThemeView key={theme} theme={`theme-${theme}-${getMode()}`} mode={getMode()} />
+        <ThemeView key={"multiple" + theme} theme={`theme-${theme}-${getMode()}`} mode={getMode()} />
       ))}
     </div>
   );
