@@ -11,7 +11,7 @@ import Link from "next/link";
 
 export default function HomeScreen() {
   return (
-    <Box>
+    <Box className="p-10">
       <ToggleTheme />
       <Avatar
         className="size-12"

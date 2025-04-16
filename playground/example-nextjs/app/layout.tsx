@@ -16,12 +16,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body>
         <AsyncStateProvider>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
+          <ThemeProvider>
             {children}
           </ThemeProvider>
         </AsyncStateProvider>
