@@ -15,17 +15,23 @@ export const themes = [
   "theme-amethyst-dark",
 ] as const;
 
+
+interface ThemeProviderProps extends React.ComponentProps<typeof NextThemesProvider> {
+  extraThemes?: string[]
+}
+
 export function ThemeProvider({
   children,
+  extraThemes,
   ...props
-}: React.ComponentProps<typeof NextThemesProvider>) {
+}: ThemeProviderProps) {
   return (
     <NextThemesProvider
       attribute="class"
       defaultTheme="system"
       enableSystem
       disableTransitionOnChange
-      themes={themes as unknown as string[]}
+      themes={[...themes, extraThemes] as string[]}
       {...props}
     >
       {children}
