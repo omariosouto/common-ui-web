@@ -1,3 +1,8 @@
+# 1.1.9 - 2025-4-16
+
+Just refining the availability of multiple themes on the same screen making them not blink on page load.
+
+
 # 1.1.8 - 2025-4-16
 
 Adding support for the real dark mode

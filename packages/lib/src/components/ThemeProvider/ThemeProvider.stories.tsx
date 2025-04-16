@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { ThemeProvider, themes, useTheme } from './ThemeProvider';
+import { SubTheme, ThemeProvider, themeNames, useTheme } from './ThemeProvider';
 import { Button } from "../Button/Button";
 import { Box } from "../Box/Box";
 import { Text } from "../Text/Text";
@@ -36,13 +36,15 @@ export const Primary: Story = {
 };
 
 function ThemeSwitcher() {
-  const { setTheme, resolvedTheme } = useTheme();
+  const { setTheme, resolvedTheme, getMode } = useTheme();
 
   return (
     <div
       className="bg-background text-foreground w-full h-full flex flex-col items-center justify-center p-10"
     >
-      <h1>
+      <h1
+        className="mb-5 text-2xl"
+      >
         Theme Switcher
         <span>
           Current (mode)
@@ -54,37 +56,61 @@ function ThemeSwitcher() {
         className="mb-10"
       >
         <Button onClick={() => setTheme('light')}>
-          Default Light
+          Mode Light
         </Button>
         <Button onClick={() => setTheme('dark')}>
-          Default Dark
+          Mode Dark
         </Button>
         <Button onClick={() => setTheme('system')}>
-          Default System
+          Mode System
         </Button>
       </div>
-      {themes.map((theme) => (
-        <ThemeView key={theme} theme={theme} />
+      {resolvedTheme}
+      {themeNames.map((theme) => (
+        <div key={theme}>
+          <ThemeView theme={`theme-${theme}-light`} mode={getMode()} />
+          <ThemeView theme={`theme-${theme}-dark`} mode={getMode()} />
+        </div>
+      ))}
+      <h2
+        className="mt-10 mb-5 text-2xl"
+      >
+        Multiple themes on same page
+        <span>
+          Current (mode)
+          <span className="hidden dark:inline-block text-red-500">dark</span>
+          <span className="inline-block dark:hidden text-blue-500">light</span>
+        </span>
+      </h2>
+      {resolvedTheme}
+      {themeNames.map((theme) => (
+        <ThemeView key={"multiple" + theme} theme={`theme-${theme}-${getMode()}`} mode={getMode()} />
       ))}
     </div>
   );
 
   function ThemeView({
-    theme
+    themeName,
+    theme,
+    mode,
   }: {
-    theme: string
+    themeName?: string;
+    theme: string;
+    mode: string;
   }) {
     return (
       <Box className={cn(
         theme,
         "w-full bg-background text-foreground"
       )}>
-        <Text>
-          [sub-theme][{theme}] - [theme][{resolvedTheme}]
-        </Text>
-        <Button onClick={() => setTheme(theme)}>
-          Button
-        </Button>
+        <SubTheme themeName={themeName as string}>
+          <Text>
+            [sub-theme][{theme}] - [theme][{resolvedTheme}] - [mode][{mode}]
+          </Text>
+          <Button onClick={() => setTheme(theme)}>
+            Button
+          </Button>
+        </SubTheme>
       </Box>
     )
   }
