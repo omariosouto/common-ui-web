@@ -57,6 +57,7 @@ export function useTheme() {
   return {
     ...nextTheme,
     getMode() {
+      // TODO:Tem que arrumar no onload
       const [,,currentModeName] = nextTheme?.theme?.split("-") || ["theme", "default", "light"];
       
       return currentModeName;
