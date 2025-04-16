@@ -22,7 +22,7 @@ interface ThemeProviderProps extends React.ComponentProps<typeof NextThemesProvi
 
 export function ThemeProvider({
   children,
-  extraThemes,
+  extraThemes = [],
   ...props
 }: ThemeProviderProps) {
   return (
@@ -31,7 +31,7 @@ export function ThemeProvider({
       defaultTheme="system"
       enableSystem
       disableTransitionOnChange
-      themes={[...themes, extraThemes] as string[]}
+      themes={[...themes, ...extraThemes] as string[]}
       {...props}
     >
       {children}

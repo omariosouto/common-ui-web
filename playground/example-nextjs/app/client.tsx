@@ -14,7 +14,11 @@ export function ToggleTheme() {
       >
         system
       </Button>
-      {themes.map((theme) => (
+      {[
+        ...themes,
+        "theme-emerald",
+        "theme-emerald-dark",
+      ].map((theme) => (
         <Button
           key={theme}
           onClick={() => setTheme(theme)}
