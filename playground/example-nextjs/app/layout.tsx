@@ -1,5 +1,4 @@
-import { ThemeProvider } from "@omariosouto/common-ui-web/components";
-import { AsyncStateProvider } from "@omariosouto/common-ui-web/state";
+import { AsyncStateProvider, ThemeProvider } from "@omariosouto/common-ui-web/providers";
 import "@omariosouto/common-ui-web/globals.css";
 import "./globals.css" // Import to enable local themes
 
