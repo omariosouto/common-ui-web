@@ -1,3 +1,8 @@
+# 1.1.6 - 2025-4-16
+
+This PR makes all necessary changes to enable multi-theme support by default through Tailwind and shadcn based on this https://ui.shadcn.com/themes
+
+
 # 1.1.5 - 2025-4-15
 
 The idea is to provide an alternative to useState, when handling asyncData providing structures to:

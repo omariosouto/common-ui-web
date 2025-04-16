@@ -1,29 +1,31 @@
 "use client";
 
-import { Box, Button, Text, useTheme } from "@omariosouto/common-ui-web/components";
+import { Box, Button, Text, themes, useTheme } from "@omariosouto/common-ui-web/components";
 
 export function ToggleTheme() {
   const { setTheme } = useTheme();
 
   return (
     <Box
-      className="flex gap-10"
+      className="flex flex-col"
     >
-      <Button
-        onClick={() => setTheme("light")}
-      >
-        Light
-      </Button>
-      <Button
-        onClick={() => setTheme("dark")}
-      >
-        Dark
-      </Button>
       <Button
         onClick={() => setTheme("system")}
       >
-        System
+        system
       </Button>
+      {[
+        ...themes,
+        "theme-emerald",
+        "theme-emerald-dark",
+      ].map((theme) => (
+        <Button
+          key={theme}
+          onClick={() => setTheme(theme)}
+        >
+          {theme}
+        </Button>
+      ))}
       <Text>
         Current theme:
         <Text tag="span" className="hidden dark:block text-red-500">dark</Text>
