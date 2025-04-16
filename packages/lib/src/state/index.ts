@@ -1,5 +1,7 @@
 "use client";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useInfiniteQuery } from "@tanstack/react-query";
 
 export { AsyncStateProvider } from "./AsyncStateProvider";
+
 export const useAsyncState = useQuery;
+export const useAsyncPaginatedState = useInfiniteQuery;
