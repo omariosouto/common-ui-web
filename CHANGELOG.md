@@ -1,3 +1,8 @@
+# 1.1.8 - 2025-4-16
+
+Adding support for the real dark mode
+
+
 # 1.1.7 - 2025-4-16
 
 Just creating a dedicated entrypoint for all providers available in the application

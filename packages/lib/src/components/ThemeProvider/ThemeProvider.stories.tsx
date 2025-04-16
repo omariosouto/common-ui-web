@@ -44,8 +44,13 @@ function ThemeSwitcher() {
     >
       <h1>
         Theme Switcher
+        <span>
+          Current (mode)
+          <span className="hidden dark:inline-block text-red-500">dark</span>
+          <span className="inline-block dark:hidden text-blue-500">light</span>
+        </span>
       </h1>
-      <div 
+      <div
         className="mb-10"
       >
         <Button onClick={() => setTheme('light')}>
