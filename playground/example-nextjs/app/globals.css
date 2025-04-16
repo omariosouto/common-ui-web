@@ -1,5 +1,12 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:is(
+  .dark *,
+  .theme-ruby-dark *,
+  .theme-amethyst-dark *,
+  .theme-emerald-dark *
+));
+
 .theme-emerald {
   --radius: 0.5rem;
   --background: oklch(1 0 0);

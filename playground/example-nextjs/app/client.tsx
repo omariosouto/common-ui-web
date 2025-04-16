@@ -9,6 +9,11 @@ export function ToggleTheme() {
     <Box
       className="flex flex-col"
     >
+      <Text>
+        Current mode:
+        <Text tag="span" className="hidden dark:block text-red-500">dark</Text>
+        <Text tag="span" className="block dark:hidden text-blue-500">light</Text>
+      </Text>
       <Button
         onClick={() => setTheme("system")}
       >
@@ -26,11 +31,6 @@ export function ToggleTheme() {
           {theme}
         </Button>
       ))}
-      <Text>
-        Current theme:
-        <Text tag="span" className="hidden dark:block text-red-500">dark</Text>
-        <Text tag="span" className="block dark:hidden text-blue-500">light</Text>
-      </Text>
       <div className="bg-warning text-warning-foreground">
         aaa
       </div>

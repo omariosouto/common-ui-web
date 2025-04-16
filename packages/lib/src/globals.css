@@ -6,7 +6,7 @@
 @source "../node_modules/@omariosouto/common-ui-web";
 /* ================ */
 
-@custom-variant dark (&:is(.dark *));
+@custom-variant dark (&:is(.dark *, .theme-ruby-dark *, .theme-amethyst-dark *));
 
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
