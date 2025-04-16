@@ -31,7 +31,7 @@ export function ToggleTheme() {
           {theme}
         </Button>
       ))}
-      <div className={`theme-emerald-${getMode()}`} suppressHydrationWarning>
+      <div className={`theme-emerald-${getMode()}`} data-mode={getMode()}>
         <div className="bg-warning text-warning-foreground">
           <Button suppressHydrationWarning>
             Sample button on emerald theme always [`theme-emerald-${getMode()}`]
