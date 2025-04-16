@@ -11,7 +11,7 @@
   html[class*="dark"] .theme-default *,
   .theme-ruby-dark *,
   html[class*="dark"] .theme-ruby *,
-  .theme-amethyst-dark *
+  .theme-amethyst-dark *,
   html[class*="dark"] .theme-amethyst *,
 ));
 

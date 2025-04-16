@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { ThemeProvider, themeNames, useTheme } from './ThemeProvider';
+import { SubTheme, ThemeProvider, themeNames, useTheme } from './ThemeProvider';
 import { Button } from "../Button/Button";
 import { Box } from "../Box/Box";
 import { Text } from "../Text/Text";
@@ -77,6 +77,7 @@ function ThemeSwitcher() {
       >
         Multiple themes on same page
       </h2>
+      {resolvedTheme}
       {themeNames.map((theme) => (
         <ThemeView key={theme} theme={`theme-${theme}-${getMode()}`} mode={getMode()} />
       ))}
@@ -84,9 +85,11 @@ function ThemeSwitcher() {
   );
 
   function ThemeView({
+    themeName,
     theme,
     mode,
   }: {
+    themeName?: string;
     theme: string;
     mode: string;
   }) {
@@ -95,12 +98,14 @@ function ThemeSwitcher() {
         theme,
         "w-full bg-background text-foreground"
       )}>
-        <Text>
-          [sub-theme][{theme}] - [theme][{resolvedTheme}] - [mode][{mode}]
-        </Text>
-        <Button onClick={() => setTheme(theme)}>
-          Button
-        </Button>
+        <SubTheme themeName={themeName as string}>
+          <Text>
+            [sub-theme][{theme}] - [theme][{resolvedTheme}] - [mode][{mode}]
+          </Text>
+          <Button onClick={() => setTheme(theme)}>
+            Button
+          </Button>
+        </SubTheme>
       </Box>
     )
   }

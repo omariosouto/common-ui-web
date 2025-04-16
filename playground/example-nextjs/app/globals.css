@@ -8,7 +8,7 @@
   .theme-amethyst-dark *,
   html[class*="dark"] .theme-amethyst *,
   .theme-emerald-dark *,
-  html[class*="dark"] .theme-emerald *
+  html[class*="dark"] .theme-emerald *,
 ));
 
 .theme-emerald-light,
