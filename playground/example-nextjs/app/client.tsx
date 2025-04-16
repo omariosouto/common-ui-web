@@ -4,7 +4,7 @@ import { Box, Button, Text, themes, useTheme } from "@omariosouto/common-ui-web/
 import { localThemes } from "./consts";
 
 export function ToggleTheme() {
-  const { setTheme } = useTheme();
+  const { setTheme, getMode } = useTheme();
 
   return (
     <Box
@@ -31,8 +31,12 @@ export function ToggleTheme() {
           {theme}
         </Button>
       ))}
-      <div className="bg-warning text-warning-foreground">
-        aaa
+      <div className={`theme-emerald-${getMode()}`} suppressHydrationWarning>
+        <div className="bg-warning text-warning-foreground">
+          <Button>
+            Sample button on emerald theme always
+          </Button>
+        </div>
       </div>
     </Box>
   );
