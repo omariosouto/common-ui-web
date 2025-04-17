@@ -74,6 +74,9 @@ export function TodoAppBasic() {
     asyncFn: ({ variables }: any) => httpClient_toggleTodoById(variables.id),
     invalidateStates: true,
 
+    // 0 - If you want to invalidate all states, you can use this
+    // invalidateStates: true,
+
     // 1 - Just trigger the mutation
     // asyncFn: ({ variables }: any) => httpClient_toggleTodoById(variables.id),
 
