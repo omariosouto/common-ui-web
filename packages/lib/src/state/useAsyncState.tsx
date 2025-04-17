@@ -1,18 +1,20 @@
 "use client";
-import { useQuery, UseQueryResult, QueryKey, UseQueryOptions, DefaultError } from "@tanstack/react-query";
+import { useQuery, UseQueryResult, QueryKey, UseQueryOptions, DefaultError, QueryFunction, SkipToken } from "@tanstack/react-query";
 import { useId } from "react";
 
 type useAsyncStateInput<
   TQueryFnData = unknown,
   TError = Error,
   TData = TQueryFnData,
-  TQueryKey extends QueryKey = QueryKey
-> = Pick<
+  TQueryKey extends QueryKey = QueryKey,
+  TPageParam = never
+> = 
+Pick<
   UseQueryOptions<TQueryFnData, TError, TData, TQueryKey>,
-  "initialData"
+  "initialData" | 'enabled' | 'refetchOnWindowFocus' | 'gcTime'
 > & {
   key?: TQueryKey;
-  asyncFn: () => Promise<TQueryFnData>;
+  asyncFn: QueryFunction<TQueryFnData, TQueryKey, TPageParam> | SkipToken;
 };
 
 type useAsyncStatePropsOutput<TData = unknown, TError = Error> = UseQueryResult<TData, TError> & {
@@ -23,9 +25,13 @@ export function useAsyncState<
   TQueryFnData = unknown,
   TError = DefaultError,
   TData = TQueryFnData,
-  TQueryKey extends QueryKey = QueryKey
+  TQueryKey extends QueryKey = QueryKey,
 >(
-  config: useAsyncStateInput<
+  {
+    key, 
+    initialData,
+    ...config
+  }: useAsyncStateInput<
     TQueryFnData,
     TError,
     TData,
@@ -34,8 +40,8 @@ export function useAsyncState<
 ): useAsyncStatePropsOutput<TData, TError> {
   const id = useId();
 
-  const queryKey = Array.isArray(config.key)
-    ? config.key
+  const queryKey = Array.isArray(key)
+    ? key
     : [id] as unknown as TQueryKey;
 
   const asyncState = useQuery<
@@ -45,9 +51,8 @@ export function useAsyncState<
     TQueryKey
   >({
     queryKey: queryKey,
-    queryFn: async () => {
-      return config.asyncFn();
-    },
+    queryFn: config.asyncFn,
+    initialData,
     ...config,
   });
 

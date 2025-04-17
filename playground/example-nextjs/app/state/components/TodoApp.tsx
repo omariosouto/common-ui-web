@@ -50,7 +50,7 @@ export function TodoApp({
           >
             <input
               type="checkbox"
-              defaultChecked={todo.completed}
+              checked={todo.completed}
               onChange={async () => onToggleTodo && await onToggleTodo(todo)}
             />
             <Text

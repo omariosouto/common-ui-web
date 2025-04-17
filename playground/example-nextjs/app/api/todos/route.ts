@@ -28,15 +28,76 @@ export async function GET() {
 }
 
 export async function DELETE(request: Request) {
-  // get queryParams from request with next 15
   const url = new URL(request.url);
-  const todoId = url.searchParams.get('id');
+  const todoIdRaw = url.searchParams.get('id');
 
-  if (todoId?.at(-1) === "1") {
+  try {
+    const todoId = Number(todoIdRaw);
+    throwOnItemTerminatedWith(0, "You can't change this todo right now, please try again", todoId);
+
+    db.todos = db.todos.filter((todo) => todo.id !== Number(todoId));
+    console.log('db.todos', db.todos.length);
+
+    return NextResponse.json(
+      {},
+      {
+        status: 200,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      },
+    );
+  } catch (err) {
+    const e = err as Error;
+
     return NextResponse.json(
       {
         error: {
-          message: "You can't delete the first todo",
+          message: e.message,
+        }
+      },
+      {
+        status: 400,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      },
+    );
+  }
+}
+
+export async function PATCH(request: Request) {
+  const url = new URL(request.url);
+  const todoIdRaw = url.searchParams.get('id');
+  const { completed } = await request.json();
+
+  try {
+    const todoId = Number(todoIdRaw);
+    throwOnItemTerminatedWith(0, "You can't change this todo right now, please try again", todoId);
+
+    db.todos = db.todos.map((todo) => {
+      if (todo.id === Number(todoId)) {
+        return { ...todo, completed };
+      }
+      return todo;
+    });
+
+    return NextResponse.json(
+      {},
+      {
+        status: 200,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      },
+    );
+  } catch (err) {
+    const e = err as Error;
+
+    return NextResponse.json(
+      {
+        error: {
+          message: e.message,
         }
       },
       {
@@ -48,17 +109,11 @@ export async function DELETE(request: Request) {
     );
   }
 
-  db.todos = db.todos.filter((todo) => todo.id !== Number(todoId));
-  console.log('db.todos', db.todos.length);
+}
 
 
-  return NextResponse.json(
-    {},
-    {
-      status: 200,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    },
-  );
+function throwOnItemTerminatedWith(num: number, message: string, todoId: number) {
+  if (String(todoId)?.at(-1) === String(num)) {
+    throw new Error(message);
+  }
 }

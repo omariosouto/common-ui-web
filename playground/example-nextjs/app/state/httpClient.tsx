@@ -17,7 +17,21 @@ export async function httpClient_deleteTodoById(todoId: number): Promise<void> {
   })
     .then((res) => {
       if (!res.ok) {
-        throw new Error("Failed to delete todo");
+        throw new Error(`Failed to delete todo with id ${todoId}`);
+      }
+    });
+}
+
+export async function httpClient_toggleTodoById(todoId: number): Promise<void> {
+  await sleep(1000);
+
+  return fetch(`http://localhost:3000/api/todos?id=${todoId}`, {
+    method: "PATCH",
+    body: JSON.stringify({ completed: true }),
+  })
+    .then((res) => {
+      if (!res.ok) {
+        throw new Error(`Failed to toggle todo with id ${todoId}`);
       }
     });
 }

@@ -15,6 +15,7 @@ export function TodoAppBasicWithPreloadedData({
       const todos = await httpClient_getTodos();
       return todos;
     },
+    gcTime: 0,
     initialData: initialTodos,
   });
 

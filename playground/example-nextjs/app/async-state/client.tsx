@@ -13,8 +13,8 @@ export default function GitHubClientView({
   githubUser?: GitHubUser;
 }) {
   const profileQuery = useAsyncState<GitHubUser>({
-    queryKey: ["profile"],
-    queryFn: async () => {
+    key: ["profile"],
+    asyncFn: async () => {
       await sleep(1000);
       return getGitHubUserInfo(githubUserLogin);
     },
@@ -22,8 +22,9 @@ export default function GitHubClientView({
   });
 
   const reposQuery = useAsyncState<GitHubRepo[]>({
-    queryKey: ["repos"],
-    queryFn: async () => {
+    key: ["repos", profileQuery.data?.login],
+    asyncFn: async ({ queryKey }) => {
+      console.log("[reposQuery]", queryKey);
       await sleep(1000);
       return fetch(`https://api.github.com/users/${githubUserLogin}/repos`)
         .then((res) => {
