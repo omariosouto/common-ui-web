@@ -7,6 +7,10 @@ type UseAsyncStateMutationInput = {
   optimisticUpdate?: (data: any) => any;
   optimisticUpdateRollback?: (data: any) => any;
   invalidateState?: boolean;
+  // Default Params
+  onMutate?: (data: any) => void;
+  onSuccess?: (data: any) => void;
+  onError?: (data: any) => void;
   onSettled?: (data: any) => void;
 }
 
@@ -16,6 +20,10 @@ export function useAsyncStateMutation({
   optimisticUpdate,
   optimisticUpdateRollback,
   invalidateState,
+  // Default Params
+  onMutate,
+  onSuccess,
+  onError,
   onSettled,
 }: UseAsyncStateMutationInput) {
   const queryClient = useQueryClient();
@@ -31,6 +39,38 @@ export function useAsyncStateMutation({
         variables,
       });
     },
+    onMutate: (variables) => {
+      const input = {
+        variables,
+        queryClient,
+      };
+
+      onMutate && onMutate(input);
+      if (optimisticUpdate) optimisticUpdate(input);
+    },
+    onSuccess: (data, variables, context) => {
+      const input = {
+        data,
+        variables,
+        context,
+        queryClient,
+      };
+      
+      onSuccess && onSuccess(input);
+
+      if (optimisticUpdate) optimisticUpdate(input);
+    },
+    onError: (error, variables, context) => {
+      onError && onError({
+        error,
+        variables,
+        context,
+        queryClient,
+      });
+      if (optimisticUpdateRollback) {
+        optimisticUpdateRollback(error);
+      }
+    },
     onSettled: (data, error, variables, context) => {
       onSettled && onSettled({
         data,
@@ -44,7 +84,6 @@ export function useAsyncStateMutation({
       }
     },
   });
-
 
   return mutation;
 }

@@ -74,10 +74,10 @@ export function TodoAppBasic() {
     stateKey: todoKeys.all(),
     asyncFn: ({ variables }: any) => httpClient_toggleTodoById(variables.id),
     invalidateState: true,
-    optimisticUpdate: (input: any) => {
+    optimisticUpdate: () => {
       console.log("[optimisticUpdate] time to update UI");
     },
-    optimisticUpdateRollback(input: any) {
+    optimisticUpdateRollback() {
       console.log("[rollback] time to update UI");
     },
   });
