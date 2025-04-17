@@ -71,8 +71,8 @@ export function TodoAppBasic() {
   
   // TODO: This must be FULLY typed
   const toggleMutation = useAsyncStateMutation({
-    asyncFn: ({ variables }: any) => httpClient_toggleTodoById(variables.id),
     stateKey: todoKeys.all(),
+    asyncFn: ({ variables }: any) => httpClient_toggleTodoById(variables.id),
     invalidateState: true,
     optimisticUpdate: (input: any) => {
       console.log("[optimisticUpdate] time to update UI");
