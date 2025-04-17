@@ -68,8 +68,9 @@ export function TodoAppBasic() {
   //   mutationFn: ({ id }) => httpClient_toggleTodoById(id),
   //   onSettled: () => queryClient.invalidateQueries({ queryKey: todoKeys.all() }),
   // });
+  
+  // TODO: This must be FULLY typed
   const toggleMutation = useAsyncStateMutation({
-    // TODO: This must be better typed
     asyncFn: ({ variables }: any) => httpClient_toggleTodoById(variables.id),
     stateKey: todoKeys.all(),
     invalidateState: true,
