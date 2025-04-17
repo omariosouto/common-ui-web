@@ -74,16 +74,12 @@ export function TodoAppBasic() {
     asyncFn: ({ variables }: any) => httpClient_toggleTodoById(variables.id),
     stateKey: todoKeys.all(),
     invalidateState: true,
-    // optimisticUpdate: (input: any) => {
-    //   console.log("[optimisticUpdate] time to update UI");
-    // },
-    // optimisticUpdateRollback(input: any) {
-    //   console.log("[rollback] time to update UI");
-    // },
-    // onSettled: (input: any) => {
-    //   console.log("[2- on_settled] - Invalidate queries", input);
-    //   input.queryClient.invalidateQueries({ queryKey: todoKeys.all() });
-    // },
+    optimisticUpdate: (input: any) => {
+      console.log("[optimisticUpdate] time to update UI");
+    },
+    optimisticUpdateRollback(input: any) {
+      console.log("[rollback] time to update UI");
+    },
   });
 
   return (
