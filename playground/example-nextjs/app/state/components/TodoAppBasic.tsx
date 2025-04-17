@@ -4,6 +4,7 @@ import {
   useQueryClient,
   useQuery,
   useMutation,
+  useAsyncStateMutation,
 } from "@omariosouto/common-ui-web/state";
 import { httpClient_deleteTodoById, httpClient_getTodos, httpClient_toggleTodoById } from "../httpClient";
 import { TodoApp } from "./TodoApp";
@@ -58,14 +59,30 @@ export function TodoAppBasic() {
     },
   });
 
-  const toggleMutation = useMutation<
-    any, // Data -> Mutation Response
-    Error, // Error -> Mutation Error
-    any, // Variables -> 
-    any // Context
-  >({
-    mutationFn: ({ id }) => httpClient_toggleTodoById(id),
-    onSettled: () => queryClient.invalidateQueries({ queryKey: todoKeys.all() }),
+  // const toggleMutation = useMutation<
+  //   any, // Data -> Mutation Response
+  //   Error, // Error -> Mutation Error
+  //   any, // Variables -> 
+  //   any // Context
+  // >({
+  //   mutationFn: ({ id }) => httpClient_toggleTodoById(id),
+  //   onSettled: () => queryClient.invalidateQueries({ queryKey: todoKeys.all() }),
+  // });
+  const toggleMutation = useAsyncStateMutation({
+    // TODO: This must be better typed
+    asyncFn: ({ variables }: any) => httpClient_toggleTodoById(variables.id),
+    stateKey: todoKeys.all(),
+    invalidateState: true,
+    // optimisticUpdate: (input: any) => {
+    //   console.log("[optimisticUpdate] time to update UI");
+    // },
+    // optimisticUpdateRollback(input: any) {
+    //   console.log("[rollback] time to update UI");
+    // },
+    // onSettled: (input: any) => {
+    //   console.log("[2- on_settled] - Invalidate queries", input);
+    //   input.queryClient.invalidateQueries({ queryKey: todoKeys.all() });
+    // },
   });
 
   return (
