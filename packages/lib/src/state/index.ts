@@ -5,8 +5,13 @@ export { AsyncStateProvider } from "./AsyncStateProvider";
 // useAsyncData
 export * from "./useAsyncState";
 // useAsyncDataMutation
-export { useMutation } from "@tanstack/react-query";
-export { useQuery, queryOptions } from "@tanstack/react-query";
+export { } from "@tanstack/react-query";
+export {
+  useQuery,
+  queryOptions,
+  useQueryClient,
+  useMutation,
+} from "@tanstack/react-query";
 
 // import { useInfiniteQuery } from "@tanstack/react-query";
 // export const useAsyncPaginatedState = useInfiniteQuery;

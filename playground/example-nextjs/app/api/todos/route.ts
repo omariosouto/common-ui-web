@@ -69,28 +69,40 @@ export async function DELETE(request: Request) {
 export async function PATCH(request: Request) {
   const url = new URL(request.url);
   const todoIdRaw = url.searchParams.get('id');
-  const { completed } = await request.json();
+  const action = url.searchParams.get('action');
 
   try {
     const todoId = Number(todoIdRaw);
-    throwOnItemTerminatedWith(0, "You can't change this todo right now, please try again", todoId);
 
-    db.todos = db.todos.map((todo) => {
-      if (todo.id === Number(todoId)) {
-        return { ...todo, completed };
-      }
-      return todo;
-    });
+    if (action === "toggle_completed") {
+      throwOnItemTerminatedWith(0, "You can't change this todo right now, please try again", todoId);
 
-    return NextResponse.json(
-      {},
-      {
-        status: 200,
-        headers: {
-          'Content-Type': 'application/json',
+      db.todos = db.todos.map((todo) => {
+        if (todo.id === Number(todoId)) {
+          const updatedTodo = { ...todo, completed: !todo.completed };
+          console.log(`[action:${action}]`, updatedTodo);
+          return updatedTodo;
+        }
+        return todo;
+      });
+    
+
+      return NextResponse.json(
+        {},
+        {
+          status: 200,
+          headers: {
+            'Content-Type': 'application/json',
+          },
         },
-      },
-    );
+      );
+    }
+    // db.todos = db.todos.map((todo) => {
+    //   if (todo.id === Number(todoId)) {
+    //     return { ...todo, completed };
+    //   }
+    //   return todo;
+    // });
   } catch (err) {
     const e = err as Error;
 

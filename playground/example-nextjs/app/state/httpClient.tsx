@@ -25,9 +25,8 @@ export async function httpClient_deleteTodoById(todoId: number): Promise<void> {
 export async function httpClient_toggleTodoById(todoId: number): Promise<void> {
   await sleep(1000);
 
-  return fetch(`http://localhost:3000/api/todos?id=${todoId}`, {
+  return fetch(`http://localhost:3000/api/todos?id=${todoId}&action=toggle_completed`, {
     method: "PATCH",
-    body: JSON.stringify({ completed: true }),
   })
     .then((res) => {
       if (!res.ok) {
