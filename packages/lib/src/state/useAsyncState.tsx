@@ -56,3 +56,5 @@ export function useAsyncState<
     key: queryKey,
   };
 };
+
+export const useAsyncDataQuery = useAsyncState;

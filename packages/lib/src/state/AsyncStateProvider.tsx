@@ -13,7 +13,17 @@ export function AsyncStateProvider(
     devtools = true,
   }: AsyncStateProviderProps) {
   // Initialize the query client once per session
-  const [queryClient] = React.useState(() => new QueryClient());
+  const [queryClient] = React.useState(() => new QueryClient({
+    defaultOptions: {
+      queries: {
+        retry: false,
+        refetchOnWindowFocus: false,
+        refetchOnReconnect: false,
+        refetchInterval: false,
+        refetchIntervalInBackground: false,
+      }
+    }
+  }));
 
   return (
     <QueryClientProvider client={queryClient}>

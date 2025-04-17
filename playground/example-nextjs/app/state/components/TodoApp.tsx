@@ -6,6 +6,7 @@ export function TodoApp({
   title,
   todosState,
   onDeleteTodo,
+  onToggleTodo,
 }: {
   title: string;
   todosState: {
@@ -16,6 +17,7 @@ export function TodoApp({
     refetch: () => void;
   };
   onDeleteTodo?: (todoToBeDeleted: Todo) => Promise<void>;
+  onToggleTodo?: (todoToBeToggled: Todo) => Promise<void>;
 }) {
 
   if (todosState.isError) {
@@ -49,6 +51,7 @@ export function TodoApp({
             <input
               type="checkbox"
               defaultChecked={todo.completed}
+              onChange={async () => onToggleTodo && await onToggleTodo(todo)}
             />
             <Text
               className="text-lg"

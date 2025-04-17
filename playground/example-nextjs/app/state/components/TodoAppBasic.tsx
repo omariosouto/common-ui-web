@@ -1,83 +1,102 @@
 "use client";
-import { useAsyncState, useMutation } from "@omariosouto/common-ui-web/state";
+import { useAsyncDataQuery, useMutation } from "@omariosouto/common-ui-web/state";
 import { useQueryClient } from "@tanstack/react-query";
 import { httpClient_deleteTodoById, httpClient_getTodos } from "../httpClient";
 import { TodoApp } from "./TodoApp";
 import { Todo } from "@/app/api/todos/domain";
 
 export function TodoAppBasic() {
-  const asyncState = useAsyncState({
-    asyncFn: async () => {
+  const asyncState = useAsyncDataQuery({
+    async asyncFn() {
       const todos = await httpClient_getTodos();
       return todos;
     },
   });
 
-  const queryClient = useQueryClient();
-
   // TODO: Move this inside the main library
-  const mutation = useMutation<
+  const cacheKey = asyncState.key;
+
+  const queryClient = useQueryClient();   // TODO: This must be abstracted
+  const deleteMutation = useMutation<
     void,
     Error,
     Todo,
     { previousTodos: Todo[] }
   >({
-    mutationFn: ({ id }) => {
-      return httpClient_deleteTodoById(id);
-    },
-    // 2.1 Antes da mutação: backup do estado atual
+    mutationFn: ({ id }) => httpClient_deleteTodoById(id),
     onMutate: async ({ id }) => {
-      await queryClient.cancelQueries({
-        queryKey: asyncState.key,
-      });
+      await queryClient.cancelQueries({ queryKey: cacheKey });
 
-      const previousTodos = queryClient.getQueryData<Todo[]>(asyncState.key) || []
-      // Remova imediatamente o item do cache
+      const previousTodos = queryClient.getQueryData<Todo[]>(cacheKey) || [];
       queryClient.setQueryData(
-        asyncState.key,
+        cacheKey,
         previousTodos.filter((t) => t.id !== id)
-      )
-      return { previousTodos }
+      );
+
+      return { previousTodos };
     },
-    // 2.2 Em caso de erro: reverta o cache
     onError: (err, _, context) => {
-      if (context) {
-        queryClient.setQueryData(asyncState.key, context.previousTodos)
+      if (context?.previousTodos) {
+        queryClient.setQueryData(cacheKey, context.previousTodos);
       }
-      console.error('Erro ao deletar:', err);
+      console.error("Error deleting:", err);
     },
-    // 2.3 Quando a mutação finalizar (sucesso ou erro): refetch
     onSettled: () => {
-      console.log("[On_Settled]");
-      queryClient.invalidateQueries({
-        queryKey: asyncState.key,
-      });
+      queryClient.invalidateQueries({ queryKey: cacheKey });
     },
   });
+
+  const toggleMutation = useMutation<
+    void,
+    Error,
+    Todo,
+    { previousTodos: Todo[] }
+  >({
+    mutationFn: ({ id }) => httpClient_deleteTodoById(id),
+    onMutate: async ({ id }) => {
+      await queryClient.cancelQueries({ queryKey: cacheKey });
+
+      const previousTodos = queryClient.getQueryData<Todo[]>(cacheKey) || [];
+      queryClient.setQueryData(
+        cacheKey,
+        previousTodos.filter((t) => t.id !== id)
+      );
+
+      return { previousTodos };
+    },
+    onError: (err, _, context) => {
+      if (context?.previousTodos) {
+        queryClient.setQueryData(cacheKey, context.previousTodos);
+      }
+      console.error("Error deleting:", err);
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: cacheKey });
+    },
+  });
+
   // ===============================================================
   // ===============================================================
+
+  console.log("[render]", deleteMutation);
 
   return (
     <>
       <p>
-        {mutation.error && (
+        {deleteMutation.error && (
           <span style={{ color: "red" }}>
-            {mutation.error.message}
+            {deleteMutation.error.message}
           </span>
         )}
       </p>
       <TodoApp
         title={"Todo App Basic"}
         todosState={asyncState}
+        onToggleTodo={async (todo) => {
+          toggleMutation.mutate(todo);
+        }}
         onDeleteTodo={async (todo) => {
-          try {
-            console.log("[start-delete]");
-            await mutation.mutateAsync(todo);
-          } catch {
-            console.log("[catch-on-delete]");
-          } finally {
-            console.log("[finally-delete]");
-          }
+          deleteMutation.mutate(todo);
         }}
       />
     </>
