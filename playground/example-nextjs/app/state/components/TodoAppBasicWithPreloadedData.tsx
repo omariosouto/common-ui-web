@@ -10,9 +10,10 @@ export function TodoAppBasicWithPreloadedData({
 }: {
   initialTodos: Todo[];
 }) {
-  const todosState = useAsyncState({
+  const asyncState = useAsyncState({
     async asyncFn() {
-      return httpClient_getTodos();
+      const todos = await httpClient_getTodos();
+      return todos;
     },
     initialData: initialTodos,
   });
@@ -20,7 +21,7 @@ export function TodoAppBasicWithPreloadedData({
   return (
     <TodoApp
       title={"Todo App Basic Preloaded"}
-      todosState={todosState}
+      todosState={asyncState}
     />
   );
 }

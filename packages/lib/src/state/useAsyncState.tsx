@@ -11,11 +11,13 @@ type useAsyncStateInput<
   UseQueryOptions<TQueryFnData, TError, TData, TQueryKey>,
   "initialData"
 > & {
-  key: TQueryKey;
+  key?: TQueryKey;
   asyncFn: () => Promise<TQueryFnData>;
 };
 
-type useAsyncStatePropsOutput<TData = unknown, TError = Error> = UseQueryResult<TData, TError>;
+type useAsyncStatePropsOutput<TData = unknown, TError = Error> = UseQueryResult<TData, TError> & {
+  key: QueryKey;
+};
 
 export function useAsyncState<
   TQueryFnData = unknown,
@@ -34,13 +36,23 @@ export function useAsyncState<
 
   const queryKey = Array.isArray(config.key)
     ? config.key
-    : [id];
+    : [id] as unknown as TQueryKey;
 
-  return useQuery({
-    queryKey,
+  const asyncState = useQuery<
+    TQueryFnData,
+    TError,
+    TData,
+    TQueryKey
+  >({
+    queryKey: queryKey,
     queryFn: async () => {
       return config.asyncFn();
     },
     ...config,
   });
+
+  return {
+    ...asyncState,
+    key: queryKey,
+  };
 };

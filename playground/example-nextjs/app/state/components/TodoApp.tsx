@@ -1,10 +1,11 @@
 "use client";
 import { Todo } from "../../api/todos/domain";
-import { Box, Text } from "@omariosouto/common-ui-web/components";
+import { Box, Button, Text } from "@omariosouto/common-ui-web/components";
 
 export function TodoApp({
   title,
   todosState,
+  onDeleteTodo,
 }: {
   title: string;
   todosState: {
@@ -12,7 +13,9 @@ export function TodoApp({
     isError: boolean;
     error: Error | null;
     data?: Todo[];
+    refetch: () => void;
   };
+  onDeleteTodo?: (todoToBeDeleted: Todo) => Promise<void>;
 }) {
 
   if (todosState.isError) {
@@ -29,7 +32,7 @@ export function TodoApp({
         tag="h2"
         className="text-2xl font-bold mb-4"
       >
-        {title}
+        {title} <button onClick={() => todosState.refetch()}>reload</button>
       </Text>
       <Box tag="ul">
         {todosState.isLoading && (
@@ -52,6 +55,13 @@ export function TodoApp({
             >
               {todo.title}
             </Text>
+            <Button
+              size={"sm"}
+              variant={"destructive"}
+              onClick={async () => onDeleteTodo && await onDeleteTodo(todo)}
+            >
+              delete
+            </Button>
           </Box>
         ))}
       </Box>
