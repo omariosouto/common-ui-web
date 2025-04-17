@@ -17,7 +17,6 @@ export function ExamplesGrid({
     <div>
       <Button
         className="col-span-3"
-        variant="secondary"
         onClick={() => setVisible((prev) => !prev)}
       >
         {visible ? "Hide" : "Show"} Examples
