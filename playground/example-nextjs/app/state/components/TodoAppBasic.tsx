@@ -72,6 +72,7 @@ export function TodoAppBasic() {
   // TODO: This must be FULLY typed
   const toggleMutation = useAsyncStateMutation({
     asyncFn: ({ variables }: any) => httpClient_toggleTodoById(variables.id),
+    invalidateStates: true,
 
     // 1 - Just trigger the mutation
     // asyncFn: ({ variables }: any) => httpClient_toggleTodoById(variables.id),

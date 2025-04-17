@@ -7,6 +7,7 @@ type UseAsyncStateMutationInput = {
   optimisticUpdate?: (data: any) => any;
   optimisticUpdateRollback?: (data: any) => any;
   invalidateState?: boolean;
+  invalidateStates?: boolean;
   // Default Params
   onMutate?: (data: any) => void;
   onSuccess?: (data: any) => void;
@@ -20,6 +21,7 @@ export function useAsyncStateMutation({
   optimisticUpdate,
   optimisticUpdateRollback,
   invalidateState,
+  invalidateStates,
   // Default Params
   onMutate,
   onSuccess,
@@ -81,6 +83,9 @@ export function useAsyncStateMutation({
       });
       if (invalidateState) {
         queryClient.invalidateQueries({ queryKey: stateKey });
+      }
+      if (invalidateStates) {
+        queryClient.invalidateQueries();
       }
     },
   });
