@@ -121,6 +121,19 @@ export async function PATCH(request: Request) {
     );
   }
 
+  return NextResponse.json(
+    {
+      error: {
+        message: "Invalid action",
+      }
+    },
+    {
+      status: 405,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    },
+  );
 }
 
 

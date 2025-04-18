@@ -13,6 +13,7 @@ export function TodoAppBasicWithPreloadedData({
   const asyncSuspendedState = useAsyncStateQuery({
     queryKey: ["todos-suspend"],
     suspendRenderization: true,
+    initialData: initialTodos,
     async queryFn() {
       const todos = await httpClient_getTodos();
       return todos;
