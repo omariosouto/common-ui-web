@@ -1,6 +1,6 @@
 import { httpClient_getTodos } from "./httpClient";
-// import { ErrorBoundary } from "@omariosouto/common-ui-web/components";
-// import { ExamplesGrid } from "./client";
+import { ErrorBoundary } from "@omariosouto/common-ui-web/components";
+import { ExamplesGrid } from "./client";
 
 export default async function Screen() {
   // TODO: There's a way of by default inject this in the cache by the key?
@@ -18,9 +18,9 @@ export default async function Screen() {
       </h1>
 
       {/* create a grid with squares based on screen width positioning them as space is available */}
-      {/* <ErrorBoundary>
+      <ErrorBoundary>
         <ExamplesGrid initialData={initialTodos} />
-      </ErrorBoundary> */}
+      </ErrorBoundary>
     </div>
   );
 }
