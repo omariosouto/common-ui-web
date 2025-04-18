@@ -39,6 +39,7 @@ export function TodoAppBasic() {
     invalidateState: true,
     mutationFn: httpClient_toggleTodoById,
     async onOptimisticUpdate({ queryClient, variables }) {
+      // TODO: create a better API to work on top of the queryClient
       const oldState = queryClient.getQueryData<Todo[]>(todoStateKeys.all()) || [];
 
       queryClient.setQueryData(
@@ -50,7 +51,7 @@ export function TodoAppBasic() {
 
       return { oldState };
     },
-    onOptimisticUpdateRollback: (input) => {
+    onOptimisticUpdateRollback(input) {
       if (input.context?.oldState) {
         input.queryClient.setQueryData(todoStateKeys.all(), input.context.oldState);
       }
