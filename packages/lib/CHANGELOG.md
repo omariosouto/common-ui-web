@@ -1,3 +1,9 @@
+# 1.1.10 - 2025-4-18
+
+Debounce and Throttle are two main concepts that NEEDs to be available in any application and need to have easy ways to access them through the UI library instead of only in language level.
+These two are being proxied through https://www.npmjs.com/package/use-debounce
+
+
 # 1.1.9 - 2025-4-16
 
 Just refining the availability of multiple themes on the same screen making them not blink on page load.
