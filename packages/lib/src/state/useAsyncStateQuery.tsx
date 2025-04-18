@@ -58,7 +58,9 @@ export function useAsyncStateQuery<
   TData,
   TQueryKey,
   suspendRenderization
->) {
+>): suspendRenderization extends true
+  ? UseSuspenseQueryResult<TData, TError> & { queryKey: TQueryKey }
+  : UseQueryResult<TData, TError> & { queryKey: TQueryKey } {
   const dynamicStateQueryKey = [React.useId()] as unknown as DataTag<TQueryKey, TQueryFnData, TError>;
   const stateQueryKey = queryKey || dynamicStateQueryKey;
   const queryOptions = {
@@ -69,12 +71,6 @@ export function useAsyncStateQuery<
 
   const isSuspendedQuery = suspendRenderization;
   if (isSuspendedQuery) {
-    /**
-     *  TODO: Fix the error that happens when an error ocurrs in the suspensed query with nextjs
-     *  Notes:
-     * - When using suspended query, queryKey is mandatory
-     * - When using suspended query, throwOnError cannot be set
-    */
     const query = useSuspenseQuery<
       TQueryFnData,
       TError,
@@ -86,7 +82,12 @@ export function useAsyncStateQuery<
     return {
       ...query,
       queryKey: stateQueryKey,
-    };
+    } as UseAsyncStateQueryOutput<
+      suspendRenderization,
+      TData,
+      TError,
+      TQueryKey
+    >
   }
 
   const query = useQuery<
@@ -98,7 +99,19 @@ export function useAsyncStateQuery<
   return {
     ...query,
     queryKey: stateQueryKey,
-  } as suspendRenderization extends true
-    ? UseSuspenseQueryResult<TData, TError> & { queryKey: TQueryKey }
-    : UseQueryResult<TData, TError> & { queryKey: TQueryKey };
+  } as UseAsyncStateQueryOutput<
+    suspendRenderization,
+    TData,
+    TError,
+    TQueryKey
+  >;
 }
+
+type UseAsyncStateQueryOutput<
+  suspendRenderization,
+  TData = unknown,
+  TError = DefaultError,
+  TQueryKey extends QueryKey = QueryKey
+> = suspendRenderization extends true
+  ? UseSuspenseQueryResult<TData, TError> & { queryKey: TQueryKey }
+  : UseQueryResult<TData, TError> & { queryKey: TQueryKey };
