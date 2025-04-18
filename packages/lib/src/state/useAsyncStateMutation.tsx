@@ -1,4 +1,4 @@
-import { DefaultError, useMutation, useQueryClient, QueryClient } from "@tanstack/react-query";
+import { DefaultError, useMutation, useQueryClient, QueryClient, MutationFunction } from "@tanstack/react-query";
 
 
 type UseAsyncStateMutationInput<
@@ -7,7 +7,8 @@ type UseAsyncStateMutationInput<
   TData = unknown,
   TError = DefaultError
 > = {
-  asyncFn: (input: { variables: TVariables }) => Promise<TData>;
+  // asyncFn: (input: { variables: TVariables }) => Promise<TData>;
+  asyncFn: MutationFunction<TData, TVariables>;
   stateKey?: string[] | ReadonlyArray<string>;
   onOptimisticUpdate?: (input: {
     variables: TVariables;
@@ -79,11 +80,8 @@ export function useAsyncStateMutation<
     TVariables, // any, // Variables -> 
     TContext // any // Context
   >({
-    mutationFn(variables: TVariables) {
-      const input = {
-        variables,
-      };
-      return asyncFn(input);
+    mutationFn(...args) {
+      return asyncFn(...args);
     },
     async onMutate(variables) { // TODO: Learn more about how to use this
       const input = {

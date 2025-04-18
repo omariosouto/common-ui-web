@@ -9,7 +9,11 @@ export async function httpClient_getTodos(): Promise<Todo[]> {
     .then((res) => res.json());
 }
 
-export async function httpClient_deleteTodoById(todoId: number): Promise<void> {
+export async function httpClient_deleteTodoById({
+  todoId,
+}: {
+  todoId: number;
+}): Promise<void> {
   await sleep(1000);
 
   return fetch(`http://localhost:3000/api/todos?id=${todoId}`, {
@@ -22,15 +26,15 @@ export async function httpClient_deleteTodoById(todoId: number): Promise<void> {
     });
 }
 
-export async function httpClient_toggleTodoById(todoId: number): Promise<void> {
+export async function httpClient_toggleTodoById({ id }: { id: number }): Promise<void> {
   await sleep(1000);
 
-  return fetch(`http://localhost:3000/api/todos?id=${todoId}&action=toggle_completed`, {
+  return fetch(`http://localhost:3000/api/todos?id=${id}&action=toggle_completed`, {
     method: "PATCH",
   })
     .then((res) => {
       if (!res.ok) {
-        throw new Error(`Failed to toggle todo with id ${todoId}`);
+        throw new Error(`Failed to toggle todo with id ${id}`);
       }
     });
 }
