@@ -75,6 +75,7 @@ export function TodoAppBasic() {
           </>
         )}
       </p>
+
       <TodoApp
         title={"Todo App Basic"}
         todosState={asyncState}
