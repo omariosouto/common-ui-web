@@ -37,20 +37,16 @@ type MutationVariables = {
 export function TodoAppBasic() {
   const asyncState = useQuery(todosOptions());
 
-  const deleteMutation = useAsyncStateMutation<MutationVariables>({
-    asyncFn: ({ variables }) => httpClient_deleteTodoById(variables.id),
-  });
-
   const toggleMutation = useAsyncStateMutation<MutationVariables>({
-    invalidateStates: false,
-    asyncFn: ({ variables }: any) => httpClient_toggleTodoById(variables.id),
+    asyncFn: ({ variables }) => httpClient_toggleTodoById(variables.id),
     async onOptimisticUpdate({ queryClient, variables }) {
       const initialState = queryClient.getQueryData(todoStateKeys.all());
-      queryClient.setQueryData(todoStateKeys.all(), (todos: Todo[] = []) => {
-        return todos.map((todo) =>
+      queryClient.setQueryData(
+        todoStateKeys.all(),
+        (todos: Todo[] = []) => todos.map((todo) =>
           todo.id === variables.id ? { ...todo, completed: !todo.completed } : todo
-        );
-      });
+        ),
+      );
       return { initialState };
     },
     onOptimisticUpdateRollback: (input) => {
@@ -58,6 +54,10 @@ export function TodoAppBasic() {
         input.queryClient.setQueryData(todoStateKeys.all(), input.context.initialState);
       }
     },
+  });
+
+  const deleteMutation = useAsyncStateMutation<MutationVariables>({
+    asyncFn: ({ variables }) => httpClient_deleteTodoById(variables.id),
   });
 
   return (
