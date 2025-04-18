@@ -12,6 +12,10 @@ export function ExamplesGrid({
   initialData: Todo[];
 }) {
   const [visible, setVisible] = React.useState(true);
+  const [demosVisibility, setDemosVisibility] = React.useState<any>({
+    basic: true,
+    basicWithPreloadedData: true,
+  });
 
   return (
     <div>
@@ -28,14 +32,38 @@ export function ExamplesGrid({
           <div
             className="border-2 border-dashed border-gray-300 p-4 rounded-lg"
           >
-            <TodoAppBasic />
+            <button
+              onClick={() => {
+                setDemosVisibility((prev: any) => ({
+                  ...prev,
+                  basic: !prev.basic,
+                }));
+              }}
+            >
+              {demosVisibility.basic ? "Hide" : "Show"}
+            </button>
+            {demosVisibility.basic && (
+              <TodoAppBasic />
+            )}
           </div>
-          < div
+          <div
             className="border-2 border-dashed border-gray-300 p-4 rounded-lg"
           >
-            <TodoAppBasicWithPreloadedData
-              initialTodos={initialData}
-            />
+            <button
+              onClick={() => {
+                setDemosVisibility((prev: any) => ({
+                  ...prev,
+                  basicWithPreloadedData: !prev.basicWithPreloadedData,
+                }));
+              }}
+            >
+              {demosVisibility.basicWithPreloadedData ? "Hide" : "Show"}
+            </button>
+            {demosVisibility.basicWithPreloadedData && (
+              <TodoAppBasicWithPreloadedData
+                initialTodos={initialData}
+              />
+            )}
           </div>
         </div>
       )}

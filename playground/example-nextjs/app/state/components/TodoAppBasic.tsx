@@ -73,36 +73,6 @@ export function TodoAppBasic() {
   const toggleMutation = useAsyncStateMutation({
     asyncFn: ({ variables }: any) => httpClient_toggleTodoById(variables.id),
     invalidateStates: true,
-
-    // 0 - If you want to invalidate all states, you can use this
-    // invalidateStates: true,
-
-    // 1 - Just trigger the mutation
-    // asyncFn: ({ variables }: any) => httpClient_toggleTodoById(variables.id),
-
-    // 2 - Trigger the mutation and invalidate the state by key
-    // stateKey: todoKeys.all(),
-    // asyncFn: ({ variables }: any) => httpClient_toggleTodoById(variables.id),
-    // invalidateState: true,
-
-    // 3 - Trigger the mutation, invalidate the state by key and make an optimistic update
-    // stateKey: todoKeys.all(),
-    // asyncFn: ({ variables }: any) => httpClient_toggleTodoById(variables.id),
-    // invalidateState: true,
-    // optimisticUpdate: () => {
-    //   console.log("[optimisticUpdate] time to update UI");
-    // },
-
-    // 4 - Trigger the mutation, invalidate the state by key and make an optimistic update and rollback
-    // stateKey: todoKeys.all(),
-    // asyncFn: ({ variables }: any) => httpClient_toggleTodoById(variables.id),
-    // invalidateState: true,
-    // optimisticUpdate: () => {
-    //   console.log("[optimisticUpdate] time to update UI");
-    // },
-    // optimisticUpdateRollback() {
-    //   console.log("[rollback] time to update UI");
-    // },
   });
 
   return (
