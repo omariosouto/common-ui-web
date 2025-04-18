@@ -59,6 +59,9 @@ export function useAsyncStateQuery<
   if (isSuspendedQuery) {
     /**
      *  TODO: Fix the error that happens when an error ocurrs in the suspensed query with nextjs
+     *  Notes:
+     * - When using suspended query, queryKey is mandatory
+     * - When using suspended query, throwOnError cannot be set
     */
     const query = useSuspenseQuery<
       TQueryFnData,
