@@ -40,7 +40,6 @@ export function TodoAppBasic() {
     asyncFn: ({ variables }) => httpClient_deleteTodoById(variables.id),
   });
 
-  // TODO: This must be FULLY typed
   const toggleMutation = useAsyncStateMutation<
     {
       id: number;

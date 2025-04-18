@@ -1,4 +1,4 @@
-import { DefaultError, MutationFunction, useMutation, useQueryClient } from "@tanstack/react-query";
+import { DefaultError, useMutation, useQueryClient } from "@tanstack/react-query";
 
 
 type UseAsyncStateMutationInput<
@@ -14,7 +14,10 @@ type UseAsyncStateMutationInput<
   invalidateState?: boolean;
   invalidateStates?: boolean;
   // Default Params
-  onMutate?: (data: any) => undefined;
+  onMutate?: (input: {
+    variables: TVariables;
+    queryClient: any;
+  }) => TContext | Promise<TContext | undefined> | undefined;
   onSuccess?: (data: any) => void;
   onError?: (data: any) => void;
   onSettled?: (data: any) => void;
@@ -62,7 +65,7 @@ export function useAsyncStateMutation<
       return asyncFn(input);
       // return new Promise(() => {});
     },
-    onMutate: (variables) => {
+    onMutate(variables) {
       const input = {
         variables,
         queryClient,
