@@ -4,7 +4,7 @@
 export { AsyncStateProvider } from "./AsyncStateProvider";
 
 // API
-export * from "./useAsyncState";
+export * from "./useAsyncStateQuery";
 export * from "./useAsyncStateMutation";
 
 // Original Library
