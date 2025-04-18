@@ -44,31 +44,20 @@ export function TodoAppBasic() {
   const toggleMutation = useAsyncStateMutation<MutationVariables>({
     invalidateStates: false,
     asyncFn: ({ variables }: any) => httpClient_toggleTodoById(variables.id),
-    async onOptimisticUpdate(input) {
-      await input.queryClient.cancelQueries({ queryKey: todoStateKeys.all() });
-      
-      const previousTodos = input.queryClient.getQueryData(todoStateKeys.all()) || [];
-      
-      input.queryClient.setQueryData(todoStateKeys.all(), (oldData: Todo[]) => {
-        if (!oldData) return [];
-        return oldData.map((todo: Todo) => {
-          if (todo.id === input.variables.id) {
-            return { ...todo, completed: !todo.completed };
-          }
-          return todo;
-        });
+    async onOptimisticUpdate({ queryClient, variables }) {
+      const initialState = queryClient.getQueryData(todoStateKeys.all());
+      queryClient.setQueryData(todoStateKeys.all(), (todos: Todo[] = []) => {
+        return todos.map((todo) =>
+          todo.id === variables.id ? { ...todo, completed: !todo.completed } : todo
+        );
       });
-      return { previousTodos };
+      return { initialState };
     },
-    // onSuccess(input) {
-    //   console.log("[2 - on_success]", input);
-    // },
-    // onError: (input) => {
-    //   console.log("[2 - on_error]", input);
-    // },
-    // onSettled: (input) => {
-    //   console.log("[3 - on_settled]", input);
-    // },
+    onOptimisticUpdateRollback: (input) => {
+      if (input.context?.initialState) {
+        input.queryClient.setQueryData(todoStateKeys.all(), input.context.initialState);
+      }
+    },
   });
 
   return (
