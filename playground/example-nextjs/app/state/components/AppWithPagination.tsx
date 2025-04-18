@@ -68,7 +68,7 @@ export function AppWithPagination({
   const items = data?.pages.flat() ?? [];
 
   return (
-    <Box className="space-y-4 overflow-scroll h-full py-6">
+    <Box className="space-y-4 overflow-scroll h-full py-6 overscroll-contain">
       <Box className="flex items-center gap-2">
         <Text tag="h2" className="text-2xl font-bold">
           {title}
