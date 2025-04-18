@@ -32,8 +32,12 @@ function todosOptions() {
 export function TodoAppBasic() {
   const asyncState = useQuery(todosOptions());
 
-  const deleteMutation = useAsyncStateMutation({
-    asyncFn: ({ variables }: any) => httpClient_deleteTodoById(variables.id),
+  const deleteMutation = useAsyncStateMutation<
+    {
+      id: number;
+    }
+  >({
+    asyncFn: ({ variables }) => httpClient_deleteTodoById(variables.id),
   });
 
   // TODO: This must be FULLY typed

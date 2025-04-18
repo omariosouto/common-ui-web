@@ -1,8 +1,13 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { DefaultError, MutationFunction, useMutation, useQueryClient } from "@tanstack/react-query";
 
 
-type UseAsyncStateMutationInput = {
-  asyncFn: (variables: any) => Promise<any>;
+type UseAsyncStateMutationInput<
+  TVariables = void,
+  TContext = unknown,
+  TData = unknown,
+  TError = DefaultError
+> = {
+  asyncFn: (input: { variables: TVariables }) => Promise<unknown>; // How to get that
   stateKey?: string[] | ReadonlyArray<string>;
   optimisticUpdate?: (data: any) => any;
   optimisticUpdateRollback?: (data: any) => any;
@@ -15,7 +20,12 @@ type UseAsyncStateMutationInput = {
   onSettled?: (data: any) => void;
 }
 
-export function useAsyncStateMutation({
+export function useAsyncStateMutation<
+  TVariables = void,
+  TContext = unknown,
+  TData = unknown,
+  TError = DefaultError
+>({
   // Default Params
   onMutate,
   onSuccess,
@@ -28,19 +38,26 @@ export function useAsyncStateMutation({
   optimisticUpdateRollback,
   invalidateState,
   invalidateStates = true,
-}: UseAsyncStateMutationInput) {
+}: UseAsyncStateMutationInput<
+  TVariables,
+  TContext,
+  TData,
+  TError
+>) {
   const queryClient = useQueryClient();
 
   const mutation = useMutation<
-    any, // Data -> Mutation Response
-    Error, // Error -> Mutation Error
-    any, // Variables -> 
-    any // Context
+    TData, // any, // Data -> Mutation Response
+    TError, // Error, // Error -> Mutation Error
+    TVariables, // any, // Variables -> 
+    TContext // any // Context
   >({
-    mutationFn: (variables) => {
-      return asyncFn({
-        variables,
-      });
+    mutationFn(variables) {
+      // return asyncFn({
+      //   variables,
+      // });
+      return asyncFn(variables);
+      // return new Promise(() => {});
     },
     onMutate: (variables) => {
       const input = {
