@@ -1,4 +1,4 @@
-import { DefaultError, useMutation, useQueryClient } from "@tanstack/react-query";
+import { DefaultError, useMutation, useQueryClient, QueryClient } from "@tanstack/react-query";
 
 
 type UseAsyncStateMutationInput<
@@ -9,17 +9,32 @@ type UseAsyncStateMutationInput<
 > = {
   asyncFn: (input: { variables: TVariables }) => Promise<TData>;
   stateKey?: string[] | ReadonlyArray<string>;
-  optimisticUpdate?: (data: any) => any;
+  optimisticUpdate?: (data: {
+    variables: TVariables;
+    queryClient: QueryClient;
+    data: TData;
+    context: TContext | Promise<TContext | undefined> | undefined;
+  }) => any;
   optimisticUpdateRollback?: (data: any) => any;
   invalidateState?: boolean;
   invalidateStates?: boolean;
   // Default Params
   onMutate?: (input: {
     variables: TVariables;
-    queryClient: any;
+    queryClient: QueryClient;
   }) => TContext | Promise<TContext | undefined> | undefined;
-  onSuccess?: (data: any) => void;
-  onError?: (data: any) => void;
+  onSuccess?: (input: {
+    variables: TVariables;
+    queryClient: QueryClient;
+    data: TData;
+    context: TContext | Promise<TContext | undefined> | undefined;
+  }) => void;
+  onError?: (input: {
+    error: TError;
+    variables: TVariables;
+    context: TContext | Promise<TContext | undefined> | undefined;
+    queryClient: QueryClient;
+  }) => void;
   onSettled?: (data: any) => void;
 }
 
@@ -61,16 +76,14 @@ export function useAsyncStateMutation<
       };
       return asyncFn(input);
     },
-    onMutate(variables) {
+    onMutate(variables) { // TODO: Learn more about how to use this
       const input = {
         variables,
         queryClient,
       };
-      if (optimisticUpdate) optimisticUpdate(input);
-
       return onMutate && onMutate(input);
     },
-    onSuccess: (data, variables, context) => {
+    onSuccess(data, variables, context) {
       const input = {
         data,
         variables,
@@ -83,14 +96,16 @@ export function useAsyncStateMutation<
       if (optimisticUpdate) optimisticUpdate(input);
     },
     onError: (error, variables, context) => {
-      onError && onError({
+      const input = {
         error,
         variables,
         context,
         queryClient,
-      });
+      };
+
+      onError && onError(input);
       if (optimisticUpdateRollback) {
-        optimisticUpdateRollback(error);
+        optimisticUpdateRollback(input);
       }
     },
     onSettled: (data, error, variables, context) => {
@@ -101,6 +116,7 @@ export function useAsyncStateMutation<
         context,
         queryClient,
       });
+
       if (invalidateState) {
         queryClient.invalidateQueries({ queryKey: stateKey });
       }
