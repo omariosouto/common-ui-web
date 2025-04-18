@@ -6,9 +6,10 @@ export async function httpClient_getTodos({
   delay = 0.5,
 } = {}): Promise<Todo[]> {
   await sleep(delay * 1000);
-
-  return fetch("http://localhost:3000/api/todos")
-    .then((res) => res.json());
+  
+  return fetch("/api/todos")
+    .then((res) => res.json())
+    .catch(() => []);
 }
 
 export async function httpClient_deleteTodoById({
