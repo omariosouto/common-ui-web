@@ -8,6 +8,7 @@ import {
   UseQueryResult,
   UseSuspenseQueryResult,
   useQuery,
+  useSuspenseQuery,
 } from "@tanstack/react-query";
 
 
@@ -22,10 +23,6 @@ type UseAsyncStateQueryInput<
   queryFn?: QueryFunction<TQueryFnData, TQueryKey>;
   queryKey?: TQueryKey;
   // Custom
-  /** 
-    @deprecated
-    For now we don't offer a way to use this
-  */
   suspendRenderization?: suspendRenderization;
 } & Omit<
   UseQueryOptions<TQueryFnData, TError, TData, TQueryKey>,
@@ -41,6 +38,7 @@ export function useAsyncStateQuery<
 >({
   queryKey,
   queryFn,
+  suspendRenderization = false as suspendRenderization,
   ...queryInput
 }: UseAsyncStateQueryInput<
   TQueryFnData,
@@ -51,21 +49,36 @@ export function useAsyncStateQuery<
 >) {
   const dynamicStateQueryKey = [React.useId()] as unknown as DataTag<TQueryKey, TQueryFnData, TError>;
   const stateQueryKey = queryKey || dynamicStateQueryKey;
-
-  const query = useQuery<
-    TQueryFnData,
-    TError,
-    TData,
-    TQueryKey
-  >({
+  const queryOptions = {
     queryKey: stateQueryKey,
     queryFn,
     ...queryInput
-  }) as suspendRenderization extends true
-    ? UseSuspenseQueryResult<TData, TError>
-    : UseQueryResult<TData, TError>;
-  return {
-    ...query,
-    queryKey,
   };
-}
+
+  const isSuspendedQuery = suspendRenderization;
+  if (isSuspendedQuery) {
+    const query = useSuspenseQuery<
+      TQueryFnData,
+      TError,
+      TData,
+      TQueryKey
+    >(queryOptions);
+    return {
+      ...query,
+      queryKey,
+    } as UseSuspenseQueryResult<TData, TError>;
+  }
+
+  const query = useQuery<
+      TQueryFnData,
+      TError,
+      TData,
+      TQueryKey
+    >(queryOptions) as suspendRenderization extends true
+      ? UseSuspenseQueryResult<TData, TError>
+      : UseQueryResult<TData, TError>;
+    return {
+      ...query,
+      queryKey,
+    };
+  }

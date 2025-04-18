@@ -11,23 +11,23 @@ export function TodoAppBasicWithPreloadedData({
   initialTodos: Todo[];
 }) {
   const asyncState = useAsyncStateQuery({
+    suspendRenderization: true,
     async queryFn() {
       const todos = await httpClient_getTodos();
       return todos;
     },
-    // How to ignore the initialData after the cache was already changed?
-    // placeholderData: initialTodos,
     initialData: initialTodos,
-    gcTime: 0,
   });
 
   const toggleMutation = useAsyncStateMutation({
+    invalidateStates: false,
     mutationFn: httpClient_toggleTodoById,
+    invalidateState: asyncState.queryKey,
   });
 
   return (
     <>
-      {JSON.stringify(asyncState.data?.[0])}
+      {JSON.stringify(asyncState.data[0])}
       <TodoApp
         title={"Todo App Basic Preloaded"}
         todosState={asyncState}

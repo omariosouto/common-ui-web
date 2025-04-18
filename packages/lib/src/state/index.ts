@@ -13,4 +13,5 @@ export {
   queryOptions,
   useQueryClient,
   useMutation,
+  useSuspenseQuery,
 } from "@tanstack/react-query";
