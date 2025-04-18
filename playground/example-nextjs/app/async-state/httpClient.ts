@@ -12,19 +12,19 @@ export interface GitHubRepo {
   full_name: string;
 }
 
-const randomThrow = (chance: number) => {
-  const randomNumber = Math.random();
-  const willThrow = randomNumber < chance;
-  console.log("randomThrow", {randomNumber, chance, willThrow});
-  if (willThrow) {
-    throw new Error("Random error");
-  }
-}
+// const randomThrow = (chance: number) => {
+//   const randomNumber = Math.random();
+//   const willThrow = randomNumber < chance;
+//   console.log("randomThrow", {randomNumber, chance, willThrow});
+//   if (willThrow) {
+//     throw new Error("Random error");
+//   }
+// }
 
 export async function getGitHubUserInfo(githubUser: string): Promise<GitHubUser> {
 
   // throw in 50% of the requests
-  randomThrow(0.5);
+  // randomThrow(0.5);
 
   return fetch(`https://apia.github.com/users/${githubUser}`)
     .then((res) => {
