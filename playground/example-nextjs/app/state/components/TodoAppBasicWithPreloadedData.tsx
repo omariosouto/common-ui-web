@@ -11,7 +11,6 @@ export function TodoAppBasicWithPreloadedData({
   initialTodos: Todo[];
 }) {
   const asyncState = useAsyncStateQuery({
-    suspendRenderization: true,
     async queryFn() {
       const todos = await httpClient_getTodos();
       return todos;
@@ -22,7 +21,7 @@ export function TodoAppBasicWithPreloadedData({
 
   return (
     <>
-      {JSON.stringify(asyncState.data[0])}
+      {JSON.stringify(asyncState.data?.[0])}
       <TodoApp
         title={"Todo App Basic Preloaded"}
         todosState={asyncState}

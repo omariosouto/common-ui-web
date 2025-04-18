@@ -33,7 +33,6 @@ function todosOptions() {
 
 export function TodoAppBasic() {
   const asyncState = useAsyncStateQuery(todosOptions());
-  const asyncStateOriginal = useQuery(todosOptions());
 
   const toggleMutation = useAsyncStateMutation({
     invalidateStates: false,

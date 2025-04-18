@@ -1,18 +1,32 @@
-import { DataTag, DefaultError, QueryFunction, QueryKey, useQuery, UseQueryOptions, useSuspenseQuery } from "@tanstack/react-query";
 import React from "react";
+import {
+  DataTag,
+  DefaultError,
+  QueryFunction,
+  QueryKey,
+  UseQueryOptions,
+  UseQueryResult,
+  UseSuspenseQueryResult,
+  useQuery,
+} from "@tanstack/react-query";
 
 
 type UseAsyncStateQueryInput<
   TQueryFnData = unknown,
   TError = DefaultError,
   TData = TQueryFnData,
-  TQueryKey extends QueryKey = QueryKey
+  TQueryKey extends QueryKey = QueryKey,
+  suspendRenderization extends boolean = false
 > = {
   // Default
   queryFn?: QueryFunction<TQueryFnData, TQueryKey>;
   queryKey?: TQueryKey;
   // Custom
-  suspendRenderization?: boolean;
+  /** 
+    @deprecated
+    For now we don't offer a way to use this
+  */
+  suspendRenderization?: suspendRenderization;
 } & Omit<
   UseQueryOptions<TQueryFnData, TError, TData, TQueryKey>,
   "queryKey" | "queryFn"
@@ -22,26 +36,23 @@ export function useAsyncStateQuery<
   TQueryFnData = unknown,
   TError = DefaultError,
   TData = TQueryFnData,
-  TQueryKey extends QueryKey = QueryKey
+  TQueryKey extends QueryKey = QueryKey,
+  suspendRenderization extends boolean = false
 >({
   queryKey,
   queryFn,
-  suspendRenderization,
   ...queryInput
 }: UseAsyncStateQueryInput<
   TQueryFnData,
   TError,
   TData,
-  TQueryKey
+  TQueryKey,
+  suspendRenderization
 >) {
   const dynamicStateQueryKey = [React.useId()] as unknown as DataTag<TQueryKey, TQueryFnData, TError>;
   const stateQueryKey = queryKey || dynamicStateQueryKey;
 
-  const queryHook = suspendRenderization
-    ? useSuspenseQuery
-    : useQuery;
-
-  const query = queryHook<
+  const query = useQuery<
     TQueryFnData,
     TError,
     TData,
@@ -50,6 +61,8 @@ export function useAsyncStateQuery<
     queryKey: stateQueryKey,
     queryFn,
     ...queryInput
-  });
+  }) as suspendRenderization extends true
+    ? UseSuspenseQueryResult<TData, TError>
+    : UseQueryResult<TData, TError>;
   return query;
 }
