@@ -57,6 +57,9 @@ export function useAsyncStateQuery<
 
   const isSuspendedQuery = suspendRenderization;
   if (isSuspendedQuery) {
+    /**
+     *  TODO: Fix the error that happens when an error ocurrs in the suspensed query with nextjs
+    */
     const query = useSuspenseQuery<
       TQueryFnData,
       TError,

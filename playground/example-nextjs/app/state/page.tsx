@@ -1,3 +1,4 @@
+import { ErrorBoundaryContainer } from "@omariosouto/common-ui-web/components";
 import { ExamplesGrid } from "./client";
 import { httpClient_getTodos } from "./httpClient";
 
@@ -15,7 +16,9 @@ export default async function Screen() {
       </h1>
 
       {/* create a grid with squares based on screen width positioning them as space is available */}
-      <ExamplesGrid initialData={initialTodos} />
+      <ErrorBoundaryContainer>
+        <ExamplesGrid initialData={initialTodos} />
+      </ErrorBoundaryContainer>
     </div>
   );
 }
