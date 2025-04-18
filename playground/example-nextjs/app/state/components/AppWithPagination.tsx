@@ -35,8 +35,11 @@ export function AppWithPagination({
     error,
     refetch,
   } = useInfiniteQuery({
-    initialPageParam: 1, // página inicial
+    // Starter Page
+    initialPageParam: 1, 
+    // Cache key
     queryKey: githubStateKeys.repos(userLogin),
+    // Function that fetches the data
     queryFn: ({
       pageParam,
       queryKey,
@@ -48,13 +51,16 @@ export function AppWithPagination({
         PER_PAGE,
       });
     },
+
     /**
      * Define se existe próxima página:
      * - Se a página atual tem menos itens que PER_PAGE, não há mais páginas
      */
     getNextPageParam: (lastPage, _allPages, lastPageParam) =>
       lastPage.length < PER_PAGE ? undefined : lastPageParam + 1,
-    // Cache e stale time opcionais
+    
+    // How long this data is considered fresh
+    // After this time, the data will be considered stale and will be refetched
     staleTime: 1000 * 60, // 1 min
   });
 
