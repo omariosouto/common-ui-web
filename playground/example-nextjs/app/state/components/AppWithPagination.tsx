@@ -4,6 +4,7 @@ import React from "react";
 import { Box, Text, Button } from "@omariosouto/common-ui-web/components";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { httpClient_fetchReposPage } from "../httpClient";
+import { useInView } from "react-intersection-observer";
 
 const githubStateKeys = {
   repos: (userLogin: string) => ["repos", userLogin] as const,
@@ -20,12 +21,6 @@ export function AppWithPagination({
   title,
   userLogin = "omariosouto",
 }: AppWithPaginationProps) {
-  /**
-   * useInfiniteQuery lida internamente com:
-   *  - cache por chave
-   *  - fetch de novas páginas
-   *  - estados de loading / error
-   */
   const {
     data,
     isFetching,
@@ -60,12 +55,24 @@ export function AppWithPagination({
       lastPage.length < PER_PAGE ? undefined : lastPageParam + 1,
     
     // How long this data is considered fresh
-    // After this time, the data will be considered stale and will be refetched
     staleTime: 1000 * 60, // 1 min
   });
 
   // Achata o array de páginas num array único de itens
   const items = data?.pages.flat() ?? [];
+
+  // Intersection Observer hook from react-intersection-observer
+  const { ref: loadMoreRef, inView } = useInView({
+    triggerOnce: false,  // Keep triggering the callback while the element is in view
+    threshold: 0.9,      // Trigger when 90% of the element is in view
+  });
+
+  // Automatically fetch the next page when the element is in view
+  React.useEffect(() => {
+    if (inView && hasNextPage && !isFetchingNextPage) {
+      fetchNextPage();
+    }
+  }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage]);
 
   return (
     <Box className="space-y-4 overflow-scroll h-full py-6 overscroll-contain">
@@ -106,15 +113,15 @@ export function AppWithPagination({
         )}
       </Box>
 
-      {/* Botão “Carregar mais” */}
+      {/* Elemento de referência para o Intersection Observer */}
       {hasNextPage && (
-        <Button
-          disabled={isFetchingNextPage}
-          onClick={() => fetchNextPage()}
-          className="px-3 py-1 rounded"
-        >
-          {isFetchingNextPage ? "Carregando..." : "Carregar mais"}
-        </Button>
+        <div ref={loadMoreRef} className="h-10">
+          {isFetchingNextPage ? (
+            <Text>Carregando mais...</Text>
+          ) : (
+            <Text>Carregar mais</Text>
+          )}
+        </div>
       )}
     </Box>
   );
