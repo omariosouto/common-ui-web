@@ -2,9 +2,9 @@
 
 import React from "react";
 import { Box, Text, Button } from "@omariosouto/common-ui-web/components";
+import { useInView } from "@omariosouto/common-ui-web/utils";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { httpClient_fetchReposPage } from "../httpClient";
-import { useInView } from "react-intersection-observer";
 
 const githubStateKeys = {
   repos: (userLogin: string) => ["repos", userLogin] as const,
