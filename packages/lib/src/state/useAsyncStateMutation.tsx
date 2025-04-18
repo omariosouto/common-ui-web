@@ -9,13 +9,11 @@ type UseAsyncStateMutationInput<
 > = {
   asyncFn: (input: { variables: TVariables }) => Promise<TData>;
   stateKey?: string[] | ReadonlyArray<string>;
-  optimisticUpdate?: (data: {
+  onOptimisticUpdate?: (input: {
     variables: TVariables;
     queryClient: QueryClient;
-    data: TData;
-    context: TContext | Promise<TContext | undefined> | undefined;
-  }) => any;
-  optimisticUpdateRollback?: (data: any) => any;
+  }) => TContext | Promise<TContext | undefined> | undefined;
+  onOptimisticUpdateRollback?: (data: any) => any;
   invalidateState?: boolean;
   invalidateStates?: boolean;
   // Default Params
@@ -58,8 +56,8 @@ export function useAsyncStateMutation<
   // Custom Params for DevEx
   asyncFn,
   stateKey,
-  optimisticUpdate,
-  optimisticUpdateRollback,
+  onOptimisticUpdate,
+  onOptimisticUpdateRollback,
   invalidateState,
   invalidateStates = true,
 }: UseAsyncStateMutationInput<
@@ -82,12 +80,19 @@ export function useAsyncStateMutation<
       };
       return asyncFn(input);
     },
-    onMutate(variables) { // TODO: Learn more about how to use this
+    async onMutate(variables) { // TODO: Learn more about how to use this
       const input = {
         variables,
         queryClient,
       };
-      return onMutate && onMutate(input);
+
+      let context = onMutate && await onMutate(input);  
+
+      if (onOptimisticUpdate) {
+        context = await onOptimisticUpdate(input);
+      }
+
+      return context;
     },
     onSuccess(data, variables, context) {
       const input = {
@@ -98,8 +103,6 @@ export function useAsyncStateMutation<
       };
 
       onSuccess && onSuccess(input);
-
-      if (optimisticUpdate) optimisticUpdate(input);
     },
     onError: (error, variables, context) => {
       const input = {
@@ -110,8 +113,8 @@ export function useAsyncStateMutation<
       };
 
       onError && onError(input);
-      if (optimisticUpdateRollback) {
-        optimisticUpdateRollback(input);
+      if (onOptimisticUpdateRollback) {
+        onOptimisticUpdateRollback(input);
       }
     },
     onSettled: (data, error, variables, context) => {
@@ -161,18 +164,18 @@ export function useAsyncStateMutation<
 // stateKey: todoKeys.all(),
 // asyncFn: ({ variables }: any) => httpClient_toggleTodoById(variables.id),
 // invalidateState: true,
-// optimisticUpdate: () => {
-//   console.log("[optimisticUpdate] time to update UI");
+// onOptimisticUpdate: () => {
+//   console.log("[onOptimisticUpdate] time to update UI");
 // },
 
 5. Trigger the mutation, invalidate the state by key and make an optimistic update and rollback
 // stateKey: todoKeys.all(),
 // asyncFn: ({ variables }: any) => httpClient_toggleTodoById(variables.id),
 // invalidateState: true,
-// optimisticUpdate: () => {
-//   console.log("[optimisticUpdate] time to update UI");
+// onOptimisticUpdate: () => {
+//   console.log("[onOptimisticUpdate] time to update UI");
 // },
-// optimisticUpdateRollback() {
+// onOptimisticUpdateRollback() {
 //   console.log("[rollback] time to update UI");
 // },
 */

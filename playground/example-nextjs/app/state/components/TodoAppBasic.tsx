@@ -10,11 +10,12 @@ import { httpClient_deleteTodoById, httpClient_getTodos, httpClient_toggleTodoBy
 import { TodoApp } from "./TodoApp";
 // import { Todo } from "@/app/api/todos/domain";
 import { Button } from "@omariosouto/common-ui-web/components";
+import { Todo } from "@/app/api/todos/domain";
 
 // > useQuery is declarative, useMutation is imperative.
 
 
-const todoKeys = {
+const todoStateKeys = {
   all: () => ['todos'] as const,
   // lists: () => [...todoKeys.all, 'list'] as const,
   // list: (filters: string) => [...todoKeys.lists(), { filters }] as const,
@@ -24,7 +25,7 @@ const todoKeys = {
 
 function todosOptions() {
   return queryOptions({
-    queryKey: todoKeys.all(),
+    queryKey: todoStateKeys.all(),
     queryFn: () => httpClient_getTodos(),
   })
 }
@@ -41,16 +42,33 @@ export function TodoAppBasic() {
   });
 
   const toggleMutation = useAsyncStateMutation<MutationVariables>({
+    invalidateStates: false,
     asyncFn: ({ variables }: any) => httpClient_toggleTodoById(variables.id),
-    onSuccess(input) {
-      console.log("[2 - on_success]", input);
+    async onOptimisticUpdate(input) {
+      await input.queryClient.cancelQueries({ queryKey: todoStateKeys.all() });
+      
+      const previousTodos = input.queryClient.getQueryData(todoStateKeys.all()) || [];
+      
+      input.queryClient.setQueryData(todoStateKeys.all(), (oldData: Todo[]) => {
+        if (!oldData) return [];
+        return oldData.map((todo: Todo) => {
+          if (todo.id === input.variables.id) {
+            return { ...todo, completed: !todo.completed };
+          }
+          return todo;
+        });
+      });
+      return { previousTodos };
     },
-    onError: (input) => {
-      console.log("[2 - on_error]", input);
-    },
-    onSettled: (input) => {
-      console.log("[3 - on_settled]", input);
-    },
+    // onSuccess(input) {
+    //   console.log("[2 - on_success]", input);
+    // },
+    // onError: (input) => {
+    //   console.log("[2 - on_error]", input);
+    // },
+    // onSettled: (input) => {
+    //   console.log("[3 - on_settled]", input);
+    // },
   });
 
   return (
