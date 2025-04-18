@@ -1,6 +1,6 @@
 "use client";
-import { useAsyncStateQuery } from "@omariosouto/common-ui-web/state";
-import { httpClient_getTodos } from "../httpClient";
+import { useAsyncStateMutation, useAsyncStateQuery } from "@omariosouto/common-ui-web/state";
+import { httpClient_getTodos, httpClient_toggleTodoById } from "../httpClient";
 import { TodoApp } from "./TodoApp";
 import { Todo } from "@/app/api/todos/domain";
 
@@ -15,8 +15,14 @@ export function TodoAppBasicWithPreloadedData({
       const todos = await httpClient_getTodos();
       return todos;
     },
+    // How to ignore the initialData after the cache was already changed?
+    // placeholderData: initialTodos,
     initialData: initialTodos,
     gcTime: 0,
+  });
+
+  const toggleMutation = useAsyncStateMutation({
+    mutationFn: httpClient_toggleTodoById,
   });
 
   return (
@@ -25,7 +31,8 @@ export function TodoAppBasicWithPreloadedData({
       <TodoApp
         title={"Todo App Basic Preloaded"}
         todosState={asyncState}
-        isToggling={false}
+        isToggling={toggleMutation.isPending}
+        onToggleTodo={async (todo) => toggleMutation.mutate({ id: todo.id, })}
       />
     </>
   );

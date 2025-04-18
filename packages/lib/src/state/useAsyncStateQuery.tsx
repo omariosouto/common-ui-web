@@ -64,5 +64,8 @@ export function useAsyncStateQuery<
   }) as suspendRenderization extends true
     ? UseSuspenseQueryResult<TData, TError>
     : UseQueryResult<TData, TError>;
-  return query;
+  return {
+    ...query,
+    queryKey,
+  };
 }
