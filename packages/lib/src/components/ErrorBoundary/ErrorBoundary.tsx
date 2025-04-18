@@ -1,29 +1,35 @@
 "use client";
-import { ErrorBoundary, FallbackProps } from "react-error-boundary";
+import { ErrorBoundary as ErrorBoundaryModule, FallbackProps } from "react-error-boundary";
 import { useQueryErrorResetBoundary } from "@tanstack/react-query";
+import { Button } from "../Button/Button";
 
 
 interface ErrorBoundaryProps {
   children: React.ReactNode;
   fallbackRender?: (props: FallbackProps) => React.ReactNode;
 }
-export function ErrorBoundaryContainer({
+export function ErrorBoundary({
   children,
 }: ErrorBoundaryProps) {
   const { reset } = useQueryErrorResetBoundary();
 
   return (
-    <ErrorBoundary
+    <ErrorBoundaryModule
       onReset={reset}
-      fallbackRender={({ error, resetErrorBoundary }) => (
-        <div>
-          <p>Something went wrong:</p>
-          <pre>{error.message}</pre>
-          <button onClick={resetErrorBoundary}>Try again</button>
-        </div>
-      )}
+      fallbackRender={({ error, resetErrorBoundary }) => {
+        console.error(error);
+
+        return (
+          <div
+            className="bg-background text-foreground"
+          >
+            <p>Something went wrong 😔</p>
+            <Button onClick={resetErrorBoundary}>Try again</Button>
+          </div>
+        );
+      }}
     >
       {children}
-    </ErrorBoundary>
+    </ErrorBoundaryModule>
   )
 }

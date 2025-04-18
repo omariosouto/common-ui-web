@@ -6,6 +6,8 @@ export async function httpClient_getTodos({
   delay = 0.5,
 } = {}): Promise<Todo[]> {
   await sleep(delay * 1000);
+
+
   
   return fetch("/api/todos")
     .then((res) => res.json())

@@ -1,4 +1,4 @@
-import { AsyncStateProvider, ThemeProvider } from "@omariosouto/common-ui-web/providers";
+import { AsyncStateProvider, ThemeProvider, RootErrorBoundary } from "@omariosouto/common-ui-web/providers";
 import "@omariosouto/common-ui-web/globals.css";
 import "./globals.css" // Import to enable local themes
 import { localThemes } from "./consts";
@@ -20,7 +20,9 @@ export default function RootLayout({
           <ThemeProvider
             extraThemes={localThemes}
           >
-            {children}
+            <RootErrorBoundary>
+              {children}
+            </RootErrorBoundary>
           </ThemeProvider>
         </AsyncStateProvider>
       </body>
