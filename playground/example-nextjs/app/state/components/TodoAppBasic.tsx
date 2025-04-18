@@ -34,7 +34,7 @@ export function TodoAppBasic() {
   const asyncState = useQuery(todosOptions());
 
   const toggleMutation = useAsyncStateMutation({
-    asyncFn: httpClient_toggleTodoById,
+    mutationFn: httpClient_toggleTodoById,
     async onOptimisticUpdate({ queryClient, variables }) {
       const initialState = queryClient.getQueryData<Todo[]>(todoStateKeys.all()) || [];
 
@@ -55,7 +55,7 @@ export function TodoAppBasic() {
   });
 
   const deleteMutation = useAsyncStateMutation({
-    asyncFn: httpClient_deleteTodoById,
+    mutationFn: httpClient_deleteTodoById,
   });
 
   return (

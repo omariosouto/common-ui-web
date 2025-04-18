@@ -7,8 +7,7 @@ type UseAsyncStateMutationInput<
   TData = unknown,
   TError = DefaultError
 > = {
-  // asyncFn: (input: { variables: TVariables }) => Promise<TData>;
-  asyncFn: MutationFunction<TData, TVariables>;
+  mutationFn: MutationFunction<TData, TVariables>;
   stateKey?: string[] | ReadonlyArray<string>;
   onOptimisticUpdate?: (input: {
     variables: TVariables;
@@ -49,10 +48,10 @@ type UseAsyncStateMutationInput<
 }
 
 export function useAsyncStateMutation<
-  TVariables = void,
-  TContext = unknown,
   TData = unknown,
-  TError = DefaultError
+  TContext = unknown,
+  TError = DefaultError,
+  TVariables = void
 >({
   // Default Params
   onMutate,
@@ -60,7 +59,7 @@ export function useAsyncStateMutation<
   onError,
   onSettled,
   // Custom Params for DevEx
-  asyncFn,
+  mutationFn,
   stateKey,
   onOptimisticUpdate,
   onOptimisticUpdateRollback,
@@ -81,7 +80,7 @@ export function useAsyncStateMutation<
     TContext // any // Context
   >({
     mutationFn(...args) {
-      return asyncFn(...args);
+      return mutationFn(...args);
     },
     async onMutate(variables) { // TODO: Learn more about how to use this
       const input = {
@@ -154,18 +153,18 @@ export function useAsyncStateMutation<
 2. - Just trigger the mutation
 ```json
 {
-  asyncFn: ({ variables }: any) => httpClient_toggleTodoById(variables.id),
+  mutationFn: ({ variables }: any) => httpClient_toggleTodoById(variables.id),
 }
 ```
 
 3. Trigger the mutation and invalidate the state by key
 // stateKey: todoKeys.all(),
-// asyncFn: ({ variables }: any) => httpClient_toggleTodoById(variables.id),
+// mutationFn: ({ variables }: any) => httpClient_toggleTodoById(variables.id),
 // invalidateState: true,
 
 4. Trigger the mutation, invalidate the state by key and make an optimistic update
 // stateKey: todoKeys.all(),
-// asyncFn: ({ variables }: any) => httpClient_toggleTodoById(variables.id),
+// mutationFn: ({ variables }: any) => httpClient_toggleTodoById(variables.id),
 // invalidateState: true,
 // onOptimisticUpdate: () => {
 //   console.log("[onOptimisticUpdate] time to update UI");
@@ -173,7 +172,7 @@ export function useAsyncStateMutation<
 
 5. Trigger the mutation, invalidate the state by key and make an optimistic update and rollback
 // stateKey: todoKeys.all(),
-// asyncFn: ({ variables }: any) => httpClient_toggleTodoById(variables.id),
+// mutationFn: ({ variables }: any) => httpClient_toggleTodoById(variables.id),
 // invalidateState: true,
 // onOptimisticUpdate: () => {
 //   console.log("[onOptimisticUpdate] time to update UI");
