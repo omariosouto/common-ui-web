@@ -65,20 +65,32 @@ export function useAsyncStateQuery<
     >(queryOptions);
     return {
       ...query,
-      queryKey,
-    } as UseSuspenseQueryResult<TData, TError>;
+      queryKey: stateQueryKey,
+    };
   }
 
   const query = useQuery<
-      TQueryFnData,
-      TError,
-      TData,
-      TQueryKey
-    >(queryOptions) as suspendRenderization extends true
-      ? UseSuspenseQueryResult<TData, TError>
-      : UseQueryResult<TData, TError>;
-    return {
-      ...query,
-      queryKey,
-    };
-  }
+    TQueryFnData,
+    TError,
+    TData,
+    TQueryKey
+  >(queryOptions);
+  return {
+    ...query,
+    queryKey: stateQueryKey,
+  } as useAsyncStateQueryOutput<
+    TError,
+    TData,
+    TQueryKey,
+    suspendRenderization
+  >;
+
+  type useAsyncStateQueryOutput<
+    TError,
+    TData,
+    TQueryKey,
+    suspendRenderization extends boolean
+  > = suspendRenderization extends true
+    ? UseSuspenseQueryResult<TData, TError> & { queryKey: TQueryKey }
+    : UseQueryResult<TData, TError> & { queryKey: TQueryKey };
+}

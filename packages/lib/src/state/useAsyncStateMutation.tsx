@@ -8,7 +8,7 @@ type UseAsyncStateMutationInput<
   TError = DefaultError
 > = {
   mutationFn: MutationFunction<TData, TVariables>;
-  stateKey?: string[] | ReadonlyArray<string>;
+  stateKey?: string[] | ReadonlyArray<string> | unknown[] | ReadonlyArray<unknown>;
   onOptimisticUpdate?: (input: {
     variables: TVariables;
     queryClient: QueryClient;

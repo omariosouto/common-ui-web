@@ -10,27 +10,46 @@ export function TodoAppBasicWithPreloadedData({
 }: {
   initialTodos: Todo[];
 }) {
+  const asyncSuspendedState = useAsyncStateQuery({
+    // suspendRenderization: true,
+    async queryFn() {
+      const todos = await httpClient_getTodos();
+      throw new Error("Error in asyncSuspendedState");
+      return todos;
+    },
+    // throwOnError: true,
+    // initialData: initialTodos,
+  });
+
   const asyncState = useAsyncStateQuery({
-    suspendRenderization: true,
     async queryFn() {
       const todos = await httpClient_getTodos();
       return todos;
     },
-    initialData: initialTodos,
   });
 
   const toggleMutation = useAsyncStateMutation({
-    invalidateStates: false,
     mutationFn: httpClient_toggleTodoById,
-    invalidateState: asyncState.queryKey,
   });
 
   return (
     <>
-      {JSON.stringify(asyncState.data[0])}
+      {/* {JSON.stringify(asyncSuspendedState.data[0])} */}
+      {JSON.stringify(asyncState.data?.[0])}
+      {asyncState.isLoading && (
+        <div>
+          <p>Loading...</p>
+        </div>
+      )}
+      {asyncState.isError && (
+        <div>
+          <p>Error: {asyncState.error?.message}</p>
+          <button onClick={() => asyncState.refetch()}>Retry</button>
+        </div>
+      )}
       <TodoApp
         title={"Todo App Basic Preloaded"}
-        todosState={asyncState}
+        todosState={asyncSuspendedState}
         isToggling={toggleMutation.isPending}
         onToggleTodo={async (todo) => toggleMutation.mutate({ id: todo.id, })}
       />
