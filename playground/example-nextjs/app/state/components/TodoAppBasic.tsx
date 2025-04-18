@@ -29,22 +29,18 @@ function todosOptions() {
   })
 }
 
+type MutationVariables = {
+  id: number;
+}
+
 export function TodoAppBasic() {
   const asyncState = useQuery(todosOptions());
 
-  const deleteMutation = useAsyncStateMutation<
-    {
-      id: number;
-    }
-  >({
+  const deleteMutation = useAsyncStateMutation<MutationVariables>({
     asyncFn: ({ variables }) => httpClient_deleteTodoById(variables.id),
   });
 
-  const toggleMutation = useAsyncStateMutation<
-    {
-      id: number;
-    }
-  >({
+  const toggleMutation = useAsyncStateMutation<MutationVariables>({
     asyncFn: ({ variables }: any) => httpClient_toggleTodoById(variables.id),
   });
 

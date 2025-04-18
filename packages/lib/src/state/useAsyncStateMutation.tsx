@@ -56,14 +56,10 @@ export function useAsyncStateMutation<
     TContext // any // Context
   >({
     mutationFn(variables: TVariables) {
-      // return asyncFn({
-      //   variables,
-      // });
       const input = {
         variables,
       };
       return asyncFn(input);
-      // return new Promise(() => {});
     },
     onMutate(variables) {
       const input = {
