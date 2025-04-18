@@ -40,19 +40,22 @@ export function TodoAppBasic() {
     asyncFn: ({ variables }) => httpClient_deleteTodoById(variables.id),
   });
 
-  const toggleMutation = useAsyncStateMutation<MutationVariables>({
+  const toggleMutation = useAsyncStateMutation<MutationVariables, { foo: string }>({
     asyncFn: ({ variables }: any) => httpClient_toggleTodoById(variables.id),
     onMutate(input) {
-      console.log("[? - on_mutate]", input);
+      console.log("[1 - on_mutate]", input);
+      return {
+        foo: "bar"
+      };
     },
     onSuccess(input) {
-      console.log("[? - on_success]", input);
+      console.log("[2 - on_success]", input);
     },
     onError: (input) => {
-      console.log("[? - on_error]");
+      console.log("[2 - on_error]", input);
     },
     onSettled: (input) => {
-      console.log("[? - on_settled]");
+      console.log("[3 - on_settled]", input);
     },
   });
 
