@@ -1,5 +1,5 @@
 "use client";
-import { useAsyncState } from "@omariosouto/common-ui-web/state";
+import { useAsyncStateQuery } from "@omariosouto/common-ui-web/state";
 import { Box, Button, Text } from "@omariosouto/common-ui-web/components";
 import { getGitHubUserInfo, GitHubRepo, GitHubUser } from "./httpClient";
 
@@ -12,21 +12,22 @@ export default function GitHubClientView({
   githubUserLogin: string;
   githubUser?: GitHubUser;
 }) {
-  const profileQuery = useAsyncState<GitHubUser>({
-    key: ["profile"],
-    asyncFn: async () => {
+  const profileQuery = useAsyncStateQuery<GitHubUser>({
+    suspendRenderization: true,
+    queryKey: ["profile"],
+    queryFn: async () => {
       await sleep(1000);
       return getGitHubUserInfo(githubUserLogin);
     },
     // initialData: githubUser,
   });
 
-  const reposQuery = useAsyncState<GitHubRepo[]>({
-    key: ["repos", profileQuery.data?.login],
-    asyncFn: async ({ queryKey }) => {
+  const reposQuery = useAsyncStateQuery<GitHubRepo[]>({
+    queryKey: ["repos", profileQuery.data?.login],
+    queryFn: async ({ queryKey }) => {
       console.log("[reposQuery]", queryKey);
       await sleep(1000);
-      return fetch(`https://api.github.com/users/${githubUserLogin}/repos`)
+      return fetch(`https://api.github.com/users/${profileQuery.data?.login}/repos`)
         .then((res) => {
           return res.json();
         })
@@ -47,7 +48,7 @@ export default function GitHubClientView({
       {reposQuery.isLoading && <Text>Loading...</Text>}
       {reposQuery.isError && (
         <Box>
-          <Text>Error: {reposQuery.error.message}</Text>
+          <Text>Error: {reposQuery.error?.message}</Text>
           <Button
             onClick={() => {
               reposQuery.refetch();
