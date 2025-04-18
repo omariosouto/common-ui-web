@@ -4,11 +4,13 @@ import { Box, Button, Text } from "@omariosouto/common-ui-web/components";
 
 export function TodoApp({
   title,
+  isToggling,
   todosState,
   onDeleteTodo,
   onToggleTodo,
 }: {
   title: string;
+  isToggling: boolean;
   todosState: {
     isLoading: boolean;
     isError: boolean;
@@ -52,6 +54,7 @@ export function TodoApp({
               type="checkbox"
               checked={todo.completed}
               onChange={async () => onToggleTodo && await onToggleTodo(todo)}
+              disabled={isToggling}
             />
             <Text
               className="text-lg"

@@ -54,6 +54,8 @@ export function TodoAppBasic() {
     mutationFn: httpClient_deleteTodoById,
   });
 
+  console.log(toggleMutation);
+
   return (
     <>
       <p>
@@ -76,6 +78,7 @@ export function TodoAppBasic() {
       <TodoApp
         title={"Todo App Basic"}
         todosState={asyncState}
+        isToggling={toggleMutation.isPending}
         onToggleTodo={async (todo) => {
           toggleMutation.mutate({
             id: todo.id,
