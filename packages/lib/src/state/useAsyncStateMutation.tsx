@@ -14,7 +14,7 @@ type UseAsyncStateMutationInput<
   invalidateState?: boolean;
   invalidateStates?: boolean;
   // Default Params
-  onMutate?: (data: any) => void;
+  onMutate?: (data: any) => undefined;
   onSuccess?: (data: any) => void;
   onError?: (data: any) => void;
   onSettled?: (data: any) => void;
@@ -67,9 +67,9 @@ export function useAsyncStateMutation<
         variables,
         queryClient,
       };
-
-      onMutate && onMutate(input);
       if (optimisticUpdate) optimisticUpdate(input);
+
+      return onMutate && onMutate(input);
     },
     onSuccess: (data, variables, context) => {
       const input = {
