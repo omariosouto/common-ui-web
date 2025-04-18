@@ -7,7 +7,7 @@ type UseAsyncStateMutationInput<
   TData = unknown,
   TError = DefaultError
 > = {
-  asyncFn: (input: { variables: TVariables }) => Promise<unknown>; // How to get that
+  asyncFn: (input: { variables: TVariables }) => Promise<TData>;
   stateKey?: string[] | ReadonlyArray<string>;
   optimisticUpdate?: (data: any) => any;
   optimisticUpdateRollback?: (data: any) => any;
@@ -52,7 +52,7 @@ export function useAsyncStateMutation<
     TVariables, // any, // Variables -> 
     TContext // any // Context
   >({
-    mutationFn(variables) {
+    mutationFn(variables: TVariables) {
       // return asyncFn({
       //   variables,
       // });
