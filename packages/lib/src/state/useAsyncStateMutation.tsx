@@ -35,7 +35,13 @@ type UseAsyncStateMutationInput<
     context: TContext | Promise<TContext | undefined> | undefined;
     queryClient: QueryClient;
   }) => void;
-  onSettled?: (data: any) => void;
+  onSettled?: (data: {
+    data: TData | undefined;
+    error: TError | null;
+    variables: TVariables;
+    context: TContext | Promise<TContext | undefined> | undefined;
+    queryClient: QueryClient;
+  }) => void;
 }
 
 export function useAsyncStateMutation<
