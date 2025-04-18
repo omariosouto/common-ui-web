@@ -56,7 +56,10 @@ export function useAsyncStateMutation<
       // return asyncFn({
       //   variables,
       // });
-      return asyncFn(variables);
+      const input = {
+        variables,
+      };
+      return asyncFn(input);
       // return new Promise(() => {});
     },
     onMutate: (variables) => {
