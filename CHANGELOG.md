@@ -1,3 +1,8 @@
+# 1.1.11-beta20254181745010627PR18 - 2025-4-18
+
+This pull request involves a minor reorganization of dependencies across `package.json` files. The `use-debounce` library has been moved from the main `package.json` to the `packages/lib/package.json`, likely to better align with its usage.
+
+
 # 1.1.10 - 2025-4-18
 
 Debounce and Throttle are two main concepts that NEEDs to be available in any application and need to have easy ways to access them through the UI library instead of only in language level.
