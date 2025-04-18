@@ -1,5 +1,5 @@
 "use client";
-import { useAsyncStateMutation, useAsyncStateQuery } from "@omariosouto/common-ui-web/state";
+import { useAsyncStateMutation, useAsyncStateQuery, useSuspenseQuery } from "@omariosouto/common-ui-web/state";
 import { httpClient_getTodos, httpClient_toggleTodoById } from "../httpClient";
 import { TodoApp } from "./TodoApp";
 import { Todo } from "@/app/api/todos/domain";
@@ -10,8 +10,9 @@ export function TodoAppBasicWithPreloadedData({
 }: {
   initialTodos: Todo[];
 }) {
-  const asyncSuspendedState = useAsyncStateQuery({
+  const asyncSuspendedState = useSuspenseQuery({
     // suspendRenderization: true,
+    queryKey: ["todos-suspend"],
     async queryFn() {
       const todos = await httpClient_getTodos();
       throw new Error("Error in asyncSuspendedState");
