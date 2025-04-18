@@ -1,3 +1,1 @@
-# @omariosouto/common-ui-web
-
-...
+common-ui-web/packages/lib/README.md
