@@ -15,10 +15,8 @@ import { Todo } from "@/app/api/todos/domain";
 
 const todoStateKeys = {
   all: () => ['todos'] as const,
-  // lists: () => [...todoKeys.all, 'list'] as const,
-  // list: (filters: string) => [...todoKeys.lists(), { filters }] as const,
-  // details: () => [...todoKeys.all, 'detail'] as const,
-  // detail: (id: number) => [...todoKeys.details(), id] as const,
+  allFiltered: (filters: string) => [...todoStateKeys.all(), { filters }] as const,
+  detail: (id: number) => [...todoStateKeys.all(), id] as const,
 };
 
 function todosOptions() {
