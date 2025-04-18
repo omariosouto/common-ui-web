@@ -11,7 +11,7 @@ export function TodoAppBasicWithPreloadedData({
   initialTodos: Todo[];
 }) {
   const asyncSuspendedState = useAsyncStateQuery({
-    queryKey: ["todos-suspend"], // TODO: This should be mandatory if suspendRenderization is true
+    queryKey: ["todos-suspend"],
     suspendRenderization: true,
     async queryFn() {
       const todos = await httpClient_getTodos();
@@ -25,7 +25,8 @@ export function TodoAppBasicWithPreloadedData({
       const todos = await httpClient_getTodos();
       return todos;
     },
-    initialData: initialTodos,
+    // initialData: initialTodos,
+    enabled: false,
   });
 
   const toggleMutation = useAsyncStateMutation({
