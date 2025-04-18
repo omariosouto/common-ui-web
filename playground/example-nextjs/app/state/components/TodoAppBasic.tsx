@@ -49,11 +49,6 @@ export function TodoAppBasic() {
       );
       return { initialState };
     },
-    onOptimisticUpdateRollback: (input) => {
-      if (input.context?.initialState) {
-        input.queryClient.setQueryData(todoStateKeys.all(), input.context.initialState);
-      }
-    },
   });
 
   const deleteMutation = useAsyncStateMutation<MutationVariables>({
