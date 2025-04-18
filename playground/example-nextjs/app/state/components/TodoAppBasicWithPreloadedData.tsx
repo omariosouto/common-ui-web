@@ -1,5 +1,5 @@
 "use client";
-import { useAsyncState } from "@omariosouto/common-ui-web/state";
+import { useAsyncStateQuery } from "@omariosouto/common-ui-web/state";
 import { httpClient_getTodos } from "../httpClient";
 import { TodoApp } from "./TodoApp";
 import { Todo } from "@/app/api/todos/domain";
@@ -10,19 +10,24 @@ export function TodoAppBasicWithPreloadedData({
 }: {
   initialTodos: Todo[];
 }) {
-  const asyncState = useAsyncState({
-    async asyncFn() {
+  const asyncState = useAsyncStateQuery({
+    suspendRenderization: true,
+    async queryFn() {
       const todos = await httpClient_getTodos();
       return todos;
     },
-    gcTime: 0,
     initialData: initialTodos,
+    gcTime: 0,
   });
 
   return (
-    <TodoApp
-      title={"Todo App Basic Preloaded"}
-      todosState={asyncState}
-    />
+    <>
+      {JSON.stringify(asyncState.data[0])}
+      <TodoApp
+        title={"Todo App Basic Preloaded"}
+        todosState={asyncState}
+        isToggling={false}
+      />
+    </>
   );
 }

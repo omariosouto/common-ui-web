@@ -3,6 +3,7 @@ import {
   queryOptions,
   useQuery,
   useAsyncStateMutation,
+  useAsyncStateQuery,
 } from "@omariosouto/common-ui-web/state";
 import { 
   httpClient_deleteTodoById,
@@ -31,7 +32,8 @@ function todosOptions() {
 }
 
 export function TodoAppBasic() {
-  const asyncState = useQuery(todosOptions());
+  const asyncState = useAsyncStateQuery(todosOptions());
+  const asyncStateOriginal = useQuery(todosOptions());
 
   const toggleMutation = useAsyncStateMutation({
     invalidateStates: false,

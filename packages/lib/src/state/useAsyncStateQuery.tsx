@@ -9,11 +9,14 @@ type UseAsyncStateQueryInput<
   TQueryKey extends QueryKey = QueryKey
 > = {
   // Default
-  queryFn: QueryFunction<TQueryFnData, TQueryKey>;
-  queryKey?: DataTag<TQueryKey, TQueryFnData, TError>;
+  queryFn?: QueryFunction<TQueryFnData, TQueryKey>;
+  queryKey?: TQueryKey;
   // Custom
   suspendRenderization?: boolean;
-} & UseQueryOptions<TQueryFnData, TError, TData, TQueryKey>;
+} & Omit<
+  UseQueryOptions<TQueryFnData, TError, TData, TQueryKey>,
+  "queryKey" | "queryFn"
+>;
 
 export function useAsyncStateQuery<
   TQueryFnData = unknown,
@@ -24,7 +27,7 @@ export function useAsyncStateQuery<
   queryKey,
   queryFn,
   suspendRenderization,
-  // ...queryInput
+  ...queryInput
 }: UseAsyncStateQueryInput<
   TQueryFnData,
   TError,
@@ -46,7 +49,7 @@ export function useAsyncStateQuery<
   >({
     queryKey: stateQueryKey,
     queryFn,
-    // ...queryInput
+    ...queryInput
   });
   return query;
 }
