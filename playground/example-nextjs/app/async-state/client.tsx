@@ -23,11 +23,13 @@ export default function GitHubClientView({
   });
 
   const reposQuery = useAsyncStateQuery<GitHubRepo[]>({
-    queryKey: ["repos", profileQuery.data?.login],
+    queryKey: ["repos", profileQuery.data?.login!],
     queryFn: async ({ queryKey }) => {
+      const [, login] = queryKey;
+
       console.log("[reposQuery]", queryKey);
       await sleep(1000);
-      return fetch(`https://api.github.com/users/${profileQuery.data?.login}/repos`)
+      return fetch(`https://api.github.com/users/${login}/repos`)
         .then((res) => {
           return res.json();
         })
