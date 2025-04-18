@@ -32,47 +32,13 @@ function todosOptions() {
 export function TodoAppBasic() {
   const asyncState = useQuery(todosOptions());
 
-  const queryClient = useQueryClient();
-  const deleteMutation = useMutation<
-    any, // Data -> Mutation Response
-    Error, // Error -> Mutation Error
-    any, // Variables -> 
-    any // Context
-  >({
-    mutationFn: ({ id }) => httpClient_deleteTodoById(id),
-    onSuccess(_data, _variable, _context) {
-      console.log("[1 - on_success] - Apply optimistic update");
-      // ✅ Optimistically update the cache
-      // queryClient.setQueryData(todoKeys.all(), (oldData: Todo[] | undefined) => {
-      //   if (!oldData) return [];
-      //   return oldData.filter((todo) => todo.id !== _variable.id);
-      // });
-    },
-    onError: (error, _variable, _context) => {
-      console.log("[1 - on_error] - Revert optimistic update");
-      console.log("error", error);
-    },
-    onSettled: (...args) => {
-      console.log("[2- on_settled] - Invalidate queries");
-      // ✅ Trigger a full refresh of data
-      queryClient.invalidateQueries({ queryKey: todoKeys.all() });
-    },
+  const deleteMutation = useAsyncStateMutation({
+    asyncFn: ({ variables }: any) => httpClient_deleteTodoById(variables.id),
   });
-
-  // const toggleMutation = useMutation<
-  //   any, // Data -> Mutation Response
-  //   Error, // Error -> Mutation Error
-  //   any, // Variables -> 
-  //   any // Context
-  // >({
-  //   mutationFn: ({ id }) => httpClient_toggleTodoById(id),
-  //   onSettled: () => queryClient.invalidateQueries({ queryKey: todoKeys.all() }),
-  // });
 
   // TODO: This must be FULLY typed
   const toggleMutation = useAsyncStateMutation({
     asyncFn: ({ variables }: any) => httpClient_toggleTodoById(variables.id),
-    invalidateStates: true,
   });
 
   return (
@@ -137,3 +103,41 @@ export function TodoAppBasic() {
 //     queryClient.invalidateQueries({ queryKey: cacheKey });
 //   },
 // });
+
+
+  // const queryClient = useQueryClient();
+  // const deleteMutation = useMutation<
+  //   any, // Data -> Mutation Response
+  //   Error, // Error -> Mutation Error
+  //   any, // Variables -> 
+  //   any // Context
+  // >({
+  //   mutationFn: ({ id }) => httpClient_deleteTodoById(id),
+  //   onSuccess(_data, _variable, _context) {
+  //     console.log("[1 - on_success] - Apply optimistic update");
+  //     // ✅ Optimistically update the cache
+  //     // queryClient.setQueryData(todoKeys.all(), (oldData: Todo[] | undefined) => {
+  //     //   if (!oldData) return [];
+  //     //   return oldData.filter((todo) => todo.id !== _variable.id);
+  //     // });
+  //   },
+  //   onError: (error, _variable, _context) => {
+  //     console.log("[1 - on_error] - Revert optimistic update");
+  //     console.log("error", error);
+  //   },
+  //   onSettled: (...args) => {
+  //     console.log("[2- on_settled] - Invalidate queries");
+  //     // ✅ Trigger a full refresh of data
+  //     queryClient.invalidateQueries({ queryKey: todoKeys.all() });
+  //   },
+  // });
+
+  // const toggleMutation = useMutation<
+  //   any, // Data -> Mutation Response
+  //   Error, // Error -> Mutation Error
+  //   any, // Variables -> 
+  //   any // Context
+  // >({
+  //   mutationFn: ({ id }) => httpClient_toggleTodoById(id),
+  //   onSettled: () => queryClient.invalidateQueries({ queryKey: todoKeys.all() }),
+  // });

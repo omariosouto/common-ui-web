@@ -27,7 +27,7 @@ export function useAsyncStateMutation({
   optimisticUpdate,
   optimisticUpdateRollback,
   invalidateState,
-  invalidateStates,
+  invalidateStates = true,
 }: UseAsyncStateMutationInput) {
   const queryClient = useQueryClient();
 
