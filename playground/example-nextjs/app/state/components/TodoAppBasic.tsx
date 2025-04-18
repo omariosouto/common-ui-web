@@ -37,17 +37,24 @@ type MutationVariables = {
 export function TodoAppBasic() {
   const asyncState = useQuery(todosOptions());
 
-  const toggleMutation = useAsyncStateMutation<MutationVariables>({
+  const toggleMutation = useAsyncStateMutation<MutationVariables, { initialState: Todo[] }>({
     asyncFn: ({ variables }) => httpClient_toggleTodoById(variables.id),
     async onOptimisticUpdate({ queryClient, variables }) {
-      const initialState = queryClient.getQueryData(todoStateKeys.all());
+      const initialState = queryClient.getQueryData<Todo[]>(todoStateKeys.all()) || [];
+
       queryClient.setQueryData(
         todoStateKeys.all(),
         (todos: Todo[] = []) => todos.map((todo) =>
           todo.id === variables.id ? { ...todo, completed: !todo.completed } : todo
         ),
       );
+
       return { initialState };
+    },
+    onOptimisticUpdateRollback: (input) => {
+      if (input.context?.initialState) {
+        input.queryClient.setQueryData(todoStateKeys.all(), input.context.initialState);
+      }
     },
   });
 

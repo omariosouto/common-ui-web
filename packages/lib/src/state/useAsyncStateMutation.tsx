@@ -13,7 +13,12 @@ type UseAsyncStateMutationInput<
     variables: TVariables;
     queryClient: QueryClient;
   }) => TContext | Promise<TContext | undefined> | undefined;
-  onOptimisticUpdateRollback?: (data: any) => any;
+  onOptimisticUpdateRollback?: (input: {
+    error: TError;
+    variables: TVariables;
+    context: TContext | undefined;
+    queryClient: QueryClient;
+  }) => any;
   invalidateState?: boolean;
   invalidateStates?: boolean;
   // Default Params
@@ -86,7 +91,7 @@ export function useAsyncStateMutation<
         queryClient,
       };
 
-      let context = onMutate && await onMutate(input);  
+      let context = onMutate && await onMutate(input);
 
       if (onOptimisticUpdate) {
         context = await onOptimisticUpdate(input);
