@@ -11,20 +11,21 @@ export function TodoAppBasicWithPreloadedData({
   initialTodos: Todo[];
 }) {
   const asyncSuspendedState = useAsyncStateQuery({
+    queryKey: ["todos-suspend"], // TODO: This should be mandatory if suspendRenderization is true
     suspendRenderization: true,
-    queryKey: ["todos-suspend"],
     async queryFn() {
       const todos = await httpClient_getTodos();
-      throw new Error("Error in asyncSuspendedState");
       return todos;
     },
   });
 
   const asyncState = useAsyncStateQuery({
+    suspendRenderization: false,
     async queryFn() {
       const todos = await httpClient_getTodos();
       return todos;
     },
+    initialData: initialTodos,
   });
 
   const toggleMutation = useAsyncStateMutation({
@@ -33,8 +34,10 @@ export function TodoAppBasicWithPreloadedData({
 
   return (
     <>
-      {/* {JSON.stringify(asyncSuspendedState.data[0])} */}
+      {JSON.stringify(asyncSuspendedState.data[0])}
+      {asyncSuspendedState.queryKey}
       {JSON.stringify(asyncState.data?.[0])}
+      {asyncState.queryKey}
       {asyncState.isLoading && (
         <div>
           <p>Loading...</p>

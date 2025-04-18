@@ -3,6 +3,7 @@ import { ExamplesGrid } from "./client";
 import { httpClient_getTodos } from "./httpClient";
 
 export default async function Screen() {
+  // TODO: There's a way of by default inject this in the cache by the key?
   const initialTodos = await httpClient_getTodos();
 
   return (

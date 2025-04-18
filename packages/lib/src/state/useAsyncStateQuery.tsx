@@ -6,6 +6,7 @@ import {
   QueryKey,
   UseQueryOptions,
   UseQueryResult,
+  UseSuspenseQueryOptions,
   UseSuspenseQueryResult,
   useQuery,
   useSuspenseQuery,
@@ -21,20 +22,31 @@ type UseAsyncStateQueryInput<
 > = {
   // Default
   queryFn?: QueryFunction<TQueryFnData, TQueryKey>;
-  queryKey?: TQueryKey;
   // Custom
   suspendRenderization?: suspendRenderization;
-} & Omit<
-  UseQueryOptions<TQueryFnData, TError, TData, TQueryKey>,
-  "queryKey" | "queryFn"
->;
+} & (
+    suspendRenderization extends true
+    ? {
+      queryKey: TQueryKey;
+    } & Omit<
+      UseSuspenseQueryOptions<TQueryFnData, TError, TData, TQueryKey>,
+      "queryKey" | "queryFn"
+    >
+    : {
+      queryKey?: TQueryKey;
+    } & Omit<
+      UseQueryOptions<TQueryFnData, TError, TData, TQueryKey>,
+      "queryKey" | "queryFn"
+    // how to ommit "throwOnError" from UseQueryOptions IF suspendRenderization is true?
+    >
+  );
 
 export function useAsyncStateQuery<
   TQueryFnData = unknown,
   TError = DefaultError,
   TData = TQueryFnData,
   TQueryKey extends QueryKey = QueryKey,
-  suspendRenderization extends boolean = false
+  suspendRenderization extends boolean = boolean
 >({
   queryKey,
   queryFn,
@@ -68,7 +80,9 @@ export function useAsyncStateQuery<
       TError,
       TData,
       TQueryKey
-    >(queryOptions);
+    >({
+      ...queryOptions,
+    });
     return {
       ...query,
       queryKey: stateQueryKey,
@@ -84,19 +98,7 @@ export function useAsyncStateQuery<
   return {
     ...query,
     queryKey: stateQueryKey,
-  } as useAsyncStateQueryOutput<
-    TError,
-    TData,
-    TQueryKey,
-    suspendRenderization
-  >;
-
-  type useAsyncStateQueryOutput<
-    TError,
-    TData,
-    TQueryKey,
-    suspendRenderization extends boolean
-  > = suspendRenderization extends true
+  } as suspendRenderization extends true
     ? UseSuspenseQueryResult<TData, TError> & { queryKey: TQueryKey }
     : UseQueryResult<TData, TError> & { queryKey: TQueryKey };
 }
