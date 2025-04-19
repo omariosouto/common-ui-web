@@ -9,7 +9,7 @@ import { Box, Text } from "@omariosouto/common-ui-web/components";
 
 // [Masks]
 
-interface TextMask<Config = unknown> {
+interface TextMaskProtocol<Config = unknown> {
   mask: (value: string, config?: Config) => string;
   unmask: (value: string, config?: Config) => string;
 }
@@ -20,7 +20,7 @@ function createTextMask<Config = unknown>({
 }: {
   mask: (value: string, config: Config) => string;
   unmask: (value: string, config: Config) => string;
-}): TextMask<Config> {
+}): TextMaskProtocol<Config> {
   return {
     mask: (value: string, config: Config = {} as Config) => {
       return mask(value, config);
@@ -35,7 +35,7 @@ function createTextMask<Config = unknown>({
 
 // [LOCAL IMPLEMENTATION]
 
-const priceMask = createTextMask<{
+const priceMask = createTextMask<{ // The Money library could provide this as an entry like: index|test|mask
   currency: string;
   lang: string;
 }>({
