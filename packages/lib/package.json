@@ -9,7 +9,7 @@
     ".": "./src/index.ts",
     "./providers": "./src/providers.ts",
     "./components": "./src/components.ts",
-    "./components/primal": "./src/components/primal.ts",
+    "./components-primal": "./src/components-primal.ts",
     "./animation": "./src/animation.ts",
     "./utils": "./src/utils.ts",
     "./state": "./src/state.ts",

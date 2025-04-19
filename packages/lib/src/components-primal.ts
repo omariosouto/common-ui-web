@@ -1,0 +1,1 @@
+export { InputTextPrimal } from "./components/_primal/InputText/InputTextPrimal";

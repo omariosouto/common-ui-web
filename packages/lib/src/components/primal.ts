@@ -1,1 +1,0 @@
-export { InputTextPrimal } from "./primal/InputText/InputTextPrimal";
