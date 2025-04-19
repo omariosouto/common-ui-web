@@ -1,3 +1,13 @@
+# 1.1.15-beta20254191745066245PR21 - 2025-4-19
+
+The idea here is to:
+- Maker forms creation easy
+- Make support for masks in field be first class and easier to apply
+- Also, we need to be able to cast back the fields from form to wire
+> Reference: https://ds-casapropria-simulator.vercel.app/
+> Libraries: https://react-hook-form.com/get-started and https://mikemcl.github.io/decimal.js/
+
+
 # 1.1.14 - 2025-4-19
 
 This exposing motion.dev through the `animations` import of our project.
