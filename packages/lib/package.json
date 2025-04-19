@@ -34,7 +34,9 @@
   },
   "peerDependencies": {
     "react": "^18.0.0 || ^19.0.0",
-    "react-dom": "^18.0.0 || ^19.0.0"
+    "react-dom": "^18.0.0 || ^19.0.0",
+    "@omariosouto/common-core": "^1.0.0 || ^2.0.0",
+    "@omariosouto/common-errors": "^1.0.0 || ^2.0.0"
   },
   "dependencies": {
     "@radix-ui/react-accordion": "^1.2.4",
@@ -62,6 +64,8 @@
     "use-debounce": "^10.0.4"
   },
   "devDependencies": {
+    "@omariosouto/common-core": "^1.0.1",
+    "@omariosouto/common-errors": "^1.0.1",
     "@omariosouto/tsconfig": "1.13.11",
     "@types/node": "^22.14.1",
     "@types/react": "19.1.1",

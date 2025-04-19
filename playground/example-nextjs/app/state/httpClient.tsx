@@ -1,13 +1,10 @@
+import { sleep } from "@omariosouto/common-core";
 import { Todo } from "../api/todos/domain";
-
-const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export async function httpClient_getTodos({
   delay = 0.5,
 } = {}): Promise<Todo[]> {
   await sleep(delay * 1000);
-
-
   
   return fetch("/api/todos")
     .then((res) => res.json())
