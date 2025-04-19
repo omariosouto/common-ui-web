@@ -105,10 +105,10 @@ export function ProductView() {
 
       <Box>
         <Text>
-          React.useState: {code}
+          React.hookForm: {form.getValues().price}
         </Text>
         <Text>
-          React.hookForm: {form.getValues().price}
+          React.useState: {code}
         </Text>
       </Box>
     </Box>
