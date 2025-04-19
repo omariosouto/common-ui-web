@@ -58,7 +58,7 @@ export function ProductView() {
           )}
           {currency === "BRL" && (
             <Text>
-              {currency} - Você está tentando comprar um ${data?.name} por 🇺🇸 {data?.price} | 🇧🇷 ${data?.price}
+              {currency} - Você está tentando comprar um ${data?.name} por 🇺🇸 {data?.price} | 🇧🇷 {data?.price}
             </Text>
           )}
 
@@ -97,3 +97,14 @@ export function ProductView() {
     </Box>
   );
 }
+
+
+/*
+
+# What do I need?
+
+- [ ] I need to have a custom Schema type for the data
+- [ ] I need to be able to mask the input
+- [ ] I need to be able to unmask the input
+
+*/
