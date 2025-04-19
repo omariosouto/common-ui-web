@@ -4,6 +4,7 @@ import { Todo } from "../api/todos/domain";
 import { TodoAppBasic } from "./components/TodoAppBasic";
 import { TodoAppBasicWithPreloadedData } from "./components/TodoAppBasicWithPreloadedData";
 import React from "react";
+import { AppWithPagination } from "./components/AppWithPagination";
 
 
 export function ExamplesGrid({
@@ -62,6 +63,25 @@ export function ExamplesGrid({
             {demosVisibility.basicWithPreloadedData && (
               <TodoAppBasicWithPreloadedData
                 initialTodos={initialData}
+              />
+            )}
+          </div>
+          <div
+            className="border-2 border-dashed border-gray-300 p-4 rounded-lg max-h-100 scroll-auto"
+          >
+            <button
+              onClick={() => {
+                setDemosVisibility((prev: any) => ({
+                  ...prev,
+                  basic: !prev.basic,
+                }));
+              }}
+            >
+              {demosVisibility.basic ? "Hide" : "Show"}
+            </button>
+            {demosVisibility.basic && (
+              <AppWithPagination
+                title="App with Pagination"
               />
             )}
           </div>
