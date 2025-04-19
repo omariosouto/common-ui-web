@@ -6,36 +6,11 @@ import { s } from "@omariosouto/common-schema";
 import { useAsyncStateQuery } from "@omariosouto/common-ui-web/state";
 import { InputTextPrimal } from "@omariosouto/common-ui-web/components-primal";
 import { Box, Text } from "@omariosouto/common-ui-web/components";
-
-// [Masks]
-
-interface TextMaskProtocol<Config = unknown> {
-  mask: (value: string, config?: Config) => string;
-  unmask: (value: string, config?: Config) => string;
-}
-
-function createTextMask<Config = unknown>({
-  mask,
-  unmask,
-}: {
-  mask: (value: string, config: Config) => string;
-  unmask: (value: string, config: Config) => string;
-}): TextMaskProtocol<Config> {
-  return {
-    mask: (value: string, config: Config = {} as Config) => {
-      return mask(value, config);
-    },
-    unmask: (value: string, config: Config = {} as Config) => {
-      return unmask(value, config);
-    }
-  };
-}
-// ======================================================================================================
-// ======================================================================================================
+import { createTextMask } from "./textMask";
 
 // [LOCAL IMPLEMENTATION]
 
-const priceMask = createTextMask<{ // The Money library could provide this as an entry like: index|test|mask
+const moneyMask = createTextMask<{ // The Money library could provide this as an entry like: index|test|mask
   currency: string;
   lang: string;
 }>({
@@ -66,7 +41,7 @@ const codeMask = createTextMask<{}>({
 
 // This must be placed in a common place inside the project and reused across it
 const masks = {
-  price: priceMask,
+  money: moneyMask,
   code: codeMask,
 } as const;
 
@@ -129,18 +104,18 @@ export function ProductView() {
             <Text>
               {currency} - You are trying to buy ${data.name} for
               {" "}
-              🇺🇸 "." {masks.price.mask(data.price, { currency, lang: "en-US" })}
+              🇺🇸 "." {masks.money.mask(data.price, { currency, lang: "en-US" })}
               {" | "}
-              🇧🇷 "," {masks.price.mask(data.price, { currency, lang: "pt-BR" })}
+              🇧🇷 "," {masks.money.mask(data.price, { currency, lang: "pt-BR" })}
             </Text>
           )}
           {currency === "BRL" && (
             <Text>
               {currency} - Você está tentando comprar um ${data.name} por
               {" "}
-              🇺🇸 "." {masks.price.mask(data.price, { currency, lang: "en-US" })}
+              🇺🇸 "." {masks.money.mask(data.price, { currency, lang: "en-US" })}
               {" | "}
-              🇧🇷 "," {masks.price.mask(data.price, { currency, lang: "pt-BR" })}
+              🇧🇷 "," {masks.money.mask(data.price, { currency, lang: "pt-BR" })}
             </Text>
           )}
 
