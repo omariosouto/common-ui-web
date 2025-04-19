@@ -1,4 +1,5 @@
 import { classNames } from "../../../utils/classNames";
+import { Tag } from "../Tag/Tag";
 
 interface InputTextPrimalProps {
   className?: string;
@@ -7,7 +8,8 @@ export function InputTextPrimal({
   className,
 }: InputTextPrimalProps) {
   return (
-    <input
+    <Tag
+      as="input"
       type="text"
       placeholder="Type something..."
       className={classNames(
