@@ -22,8 +22,8 @@ const http = {
   async getProduct(): Promise<Product> {
     const wireIn: ProductWireIn = {
       name: "Nintendo Switch 2",
-      price: "450.00", // [BRL+pt-BR] R$ 450,00 | [BRL+en-US] R$ 450.00 | [USD+pt-BR] $450,00 | [USD+en-US] $450.00
       description: "This is a product description",
+      price: "450.00", // [BRL+pt-BR] R$ 450,00 | [BRL+en-US] R$ 450.00 | [USD+pt-BR] $450,00 | [USD+en-US] $450.00
       code: "99998888", // Mask: 9999-8888
     };
     return ProductSchema.parse(wireIn);
