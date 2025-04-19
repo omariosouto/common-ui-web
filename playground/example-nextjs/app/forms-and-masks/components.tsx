@@ -30,6 +30,10 @@ function createTextMask<Config = unknown>({
     }
   };
 }
+// ======================================================================================================
+// ======================================================================================================
+
+// [LOCAL IMPLEMENTATION]
 
 const priceMask = createTextMask<{
   currency: string;
@@ -43,18 +47,21 @@ const priceMask = createTextMask<{
   }
 });
 
+const codeMask = createTextMask<{}>({
+  mask(value) {
+    // TODO: Create a utility function to help format like: 0000?-0000
+    return value.replace(/(\d{4})(\d{4})/, "$1-$2");
+  },
+  unmask(value) {
+    return value.replace(/-/g, "");
+  }
+});
+
+// This must be placed in a common place inside the project and reused across it
 const masks = {
   price: priceMask,
-  code: createTextMask({
-    mask(value) {
-      return value.replace(/(\d{4})(\d{4})/, "$1-$2");
-    },
-    unmask(value) {
-      return value.replace(/-/g, "");
-    }
-  }),
-};
-
+  code: codeMask,
+} as const;
 
 // ==================================================
 // ==================================================
