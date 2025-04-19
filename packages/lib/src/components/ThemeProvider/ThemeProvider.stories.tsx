@@ -4,7 +4,7 @@ import { SubTheme, ThemeProvider, themeNames, useTheme } from './ThemeProvider';
 import { Button } from "../Button/Button";
 import { Box } from "../Box/Box";
 import { Text } from "../Text/Text";
-import { cn } from "../../_reference/infra/utils";
+import { cn } from "../_base/infra/utils";
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta: Meta<typeof ThemeProvider> = {

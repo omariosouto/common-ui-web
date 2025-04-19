@@ -5,7 +5,7 @@ import {
   ThemeProvider as NextThemesProvider,
   useTheme as useNextTheme,
 } from "next-themes";
-import { cn } from "../../_reference/infra/utils";
+import { cn } from "../_base/infra/utils";
 
 export const themes = [
   "theme-default-light",
