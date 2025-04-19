@@ -40,10 +40,17 @@ const priceMask = createTextMask<{ // The Money library could provide this as an
   lang: string;
 }>({
   mask(value, config) {
-    return `${config.currency} ${value}`;
+    return new Intl.NumberFormat(config.lang, {
+      style: "currency",
+      currency: config.currency,
+      minimumFractionDigits: 2, // garante sempre as casas decimais
+    }).format(Number(value));
+
+    // return `${config.currency} ${value}`;
   },
-  unmask(value, config) {
-    return `${config.currency} ${value}`;
+  unmask(value) {
+    const unmaskedValue = value.replace(/[^0-9]/g, "");
+    return unmaskedValue;
   }
 });
 
@@ -82,7 +89,7 @@ const http = {
     const wireIn: ProductWireIn = {
       name: "Nintendo Switch 2",
       description: "This is a product description",
-      price: "450.00", // [BRL+pt-BR] R$ 450,00 | [BRL+en-US] R$ 450.00 | [USD+pt-BR] $450,00 | [USD+en-US] $450.00
+      price: "450", // [BRL+pt-BR] R$ 450,00 | [BRL+en-US] R$ 450.00 | [USD+pt-BR] $450,00 | [USD+en-US] $450.00
       code: "99998888", // Mask: 9999-8888
     };
     return ProductSchema.parse(wireIn);
@@ -116,20 +123,24 @@ export function ProductView() {
 
   return (
     <Box className="p-6">
-      {["BRL", "USD"].map((currency) => (
+      {["BRL", "USD"].map((currency, _) => (
         <Box className="mb-8" key={currency}>
           {currency === "USD" && (
             <Text>
               {currency} - You are trying to buy ${data.name} for
               {" "}
-              🇺🇸 {masks.price.mask(data.price, { currency, lang: "en-US" })}
+              🇺🇸 "." {masks.price.mask(data.price, { currency, lang: "en-US" })}
               {" | "}
-              🇧🇷 {masks.price.mask(data.price, { currency, lang: "pt-BR" })}
+              🇧🇷 "," {masks.price.mask(data.price, { currency, lang: "pt-BR" })}
             </Text>
           )}
           {currency === "BRL" && (
             <Text>
-              {currency} - Você está tentando comprar um ${data.name} por 🇺🇸 {data.price} | 🇧🇷 {data.price}
+              {currency} - Você está tentando comprar um ${data.name} por
+              {" "}
+              🇺🇸 "." {masks.price.mask(data.price, { currency, lang: "en-US" })}
+              {" | "}
+              🇧🇷 "," {masks.price.mask(data.price, { currency, lang: "pt-BR" })}
             </Text>
           )}
 
