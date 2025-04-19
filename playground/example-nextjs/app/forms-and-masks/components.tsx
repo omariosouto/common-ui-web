@@ -7,6 +7,7 @@ import { useAsyncStateQuery } from "@omariosouto/common-ui-web/state";
 import { InputTextPrimal } from "@omariosouto/common-ui-web/components-primal";
 import { Box, Text } from "@omariosouto/common-ui-web/components";
 import { createTextMask } from "./textMask";
+import Money, { moneySchema } from "./money";
 
 // [LOCAL IMPLEMENTATION]
 
@@ -51,7 +52,7 @@ const masks = {
 // Wire Layer
 const ProductSchema = s.object({
   name: s.string(),
-  price: s.string(), // -> Create custom type for this
+  price: moneySchema, // -> Create custom type for this
   description: s.string(),
   code: s.string(),
 });
@@ -64,7 +65,7 @@ const http = {
     const wireIn: ProductWireIn = {
       name: "Nintendo Switch 2",
       description: "This is a product description",
-      price: "450", // [BRL+pt-BR] R$ 450,00 | [BRL+en-US] R$ 450.00 | [USD+pt-BR] $450,00 | [USD+en-US] $450.00
+      price: new Money("450"), // [BRL+pt-BR] R$ 450,00 | [BRL+en-US] R$ 450.00 | [USD+pt-BR] $450,00 | [USD+en-US] $450.00
       code: "99998888", // Mask: 9999-8888
     };
     return ProductSchema.parse(wireIn);
@@ -87,7 +88,7 @@ export function ProductView() {
   >({
     mode: "onChange",
     defaultValues: {
-      price: product.data.price,
+      price: product.data.price.toString(),
     },
   });
 
@@ -104,18 +105,18 @@ export function ProductView() {
             <Text>
               {currency} - You are trying to buy ${data.name} for
               {" "}
-              🇺🇸 "." {masks.money.mask(data.price, { currency, lang: "en-US" })}
+              🇺🇸 "." {masks.money.mask(data.price.toString(), { currency, lang: "en-US" })}
               {" | "}
-              🇧🇷 "," {masks.money.mask(data.price, { currency, lang: "pt-BR" })}
+              🇧🇷 "," {masks.money.mask(data.price.toString(), { currency, lang: "pt-BR" })}
             </Text>
           )}
           {currency === "BRL" && (
             <Text>
               {currency} - Você está tentando comprar um ${data.name} por
               {" "}
-              🇺🇸 "." {masks.money.mask(data.price, { currency, lang: "en-US" })}
+              🇺🇸 "." {masks.money.mask(data.price.toString(), { currency, lang: "en-US" })}
               {" | "}
-              🇧🇷 "," {masks.money.mask(data.price, { currency, lang: "pt-BR" })}
+              🇧🇷 "," {masks.money.mask(data.price.toString(), { currency, lang: "pt-BR" })}
             </Text>
           )}
 
@@ -131,6 +132,7 @@ export function ProductView() {
             <form>
               <InputTextPrimal
                 {...form.register("price", { required: true })}
+                mask={[masks.money, { currency, lang: "en-US" }]}
               />
             </form>
           </Box>
@@ -155,7 +157,7 @@ export function ProductView() {
 
       <Box>
         <Text>
-          React.hookForm: {form.getValues().price}
+          React.hookForm: {form.getValues().price.toString()}
         </Text>
         <Text>
           React.useState: {code}

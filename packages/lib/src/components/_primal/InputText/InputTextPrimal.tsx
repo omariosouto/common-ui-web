@@ -1,17 +1,25 @@
 import { classNames } from "../../../utils/classNames";
 import { Tag } from "../Tag/Tag";
 
-interface InputTextPrimalProps {
+// TODO: Add a mask library
+export interface TextMaskProtocol<Config = unknown> {
+  mask: (value: string, config?: Config) => string;
+  unmask: (value: string, config?: Config) => string;
+}
+
+interface InputTextPrimalProps<Config = unknown> {
   className?: string;
   defaultValue?: string;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  // mask={[masks.money, { currency, lang: "en-US" }]}
+  mask?: [TextMaskProtocol<Config>, Config];
 }
-export function InputTextPrimal({
+export function InputTextPrimal<Config>({
   className,
   onChange,
   defaultValue,
   ...props
-}: InputTextPrimalProps) {
+}: InputTextPrimalProps<Config>) {
   return (
     <Tag
       as="input"
