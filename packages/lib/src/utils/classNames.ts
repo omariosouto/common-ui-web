@@ -1,3 +1,3 @@
-import { cn } from "../_reference/infra/utils";
+import { cn } from "../components/_base/infra/utils";
 
 export const classNames = cn;
