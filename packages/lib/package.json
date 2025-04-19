@@ -1,21 +1,20 @@
 {
   "name": "@omariosouto/common-ui-web",
-  "version": "1.1.13",
+  "version": "1.1.14-beta20254191745032776PR21",
   "main": "dist/index.js",
   "files": [
     "dist"
   ],
   "exports": {
-    ".": "./src/index.ts",
-    "./providers": "./src/providers.ts",
-    "./components": "./src/components.ts",
-    "./components/primal": "./src/components/primal.ts",
-    "./utils": "./src/utils.ts",
-    "./state": "./src/state.ts",
-    "./test": "./src/test.ts",
-    "./test-setup": "./src/test-setup.ts",
-    "./test-config": "./src/test-config.ts",
-    "./globals.css": "./src/globals.css"
+    "./components": "./dist/components.js",
+    ".": "./dist/index.js",
+    "./providers": "./dist/providers.js",
+    "./state": "./dist/state.js",
+    "./test-config": "./dist/test-config.js",
+    "./test-setup": "./dist/test-setup.js",
+    "./test": "./dist/test.js",
+    "./globals.css": "./dist/globals.css",
+    "./utils": "./dist/utils.js"
   },
   "scripts": {
     "build": "tsup",

@@ -1,3 +1,13 @@
+# 1.1.14-beta20254191745032776PR21 - 2025-4-19
+
+The idea here is to:
+- Maker forms creation easy
+- Make support for masks in field be first class and easier to apply
+- Also, we need to be able to cast back the fields from form to wire
+> Reference: https://ds-casapropria-simulator.vercel.app/
+> Libraries: https://react-hook-form.com/get-started and https://mikemcl.github.io/decimal.js/
+
+
 # 1.1.13 - 2025-4-19
 
 This pull request introduces new dependencies on `@omariosouto/common-core` and `@omariosouto/common-errors` libraries, while also refactoring code to utilize the `sleep` utility from `@omariosouto/common-core` instead of duplicating it locally. These changes improve code reuse and consistency across the project.
