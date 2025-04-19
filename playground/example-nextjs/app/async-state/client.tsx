@@ -1,9 +1,8 @@
 "use client";
 import { useAsyncStateQuery } from "@omariosouto/common-ui-web/state";
 import { Box, Button, Text } from "@omariosouto/common-ui-web/components";
+import { sleep } from "@omariosouto/common-core";
 import { getGitHubUserInfo, GitHubRepo } from "./httpClient";
-
-const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 const githubStateKeys = {
   profile: () => ["profile"] as const,
