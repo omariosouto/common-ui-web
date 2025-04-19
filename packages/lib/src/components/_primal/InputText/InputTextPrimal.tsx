@@ -18,8 +18,11 @@ export function InputTextPrimal<Config>({
   className,
   onChange,
   defaultValue,
+  mask,
   ...props
 }: InputTextPrimalProps<Config>) {
+  const [receveidMask, maskConfig] = mask ?? [];
+
   return (
     <Tag
       as="input"
@@ -30,6 +33,10 @@ export function InputTextPrimal<Config>({
         className,
       )}
       onChange={(e) => {
+        if(receveidMask) {
+          const maskedValue = receveidMask.mask(e.target.value, maskConfig);
+          e.target.value = maskedValue;
+        }
         onChange?.(e);
       }}
       defaultValue={defaultValue}
