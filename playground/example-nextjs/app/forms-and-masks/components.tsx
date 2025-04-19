@@ -1,10 +1,11 @@
 "use client";
 
+import React from "react";
+import { useForm } from "react-hook-form";
 import { s } from "@omariosouto/common-schema";
 import { useAsyncStateQuery } from "@omariosouto/common-ui-web/state";
 import { InputTextPrimal } from "@omariosouto/common-ui-web/components-primal";
 import { Box, Text } from "@omariosouto/common-ui-web/components";
-import React from "react";
 
 // Wire Layer
 const ProductSchema = s.object({
@@ -21,9 +22,9 @@ const http = {
   async getProduct(): Promise<Product> {
     const wireIn: ProductWireIn = {
       name: "Nintendo Switch 2",
-      price: "450.00",
+      price: "450.00", // [BRL+pt-BR] R$ 450,00 | [BRL+en-US] R$ 450.00 | [USD+pt-BR] $450,00 | [USD+en-US] $450.00
       description: "This is a product description",
-      code: "99998888", // 9999-8888
+      code: "99998888", // Mask: 9999-8888
     };
     return ProductSchema.parse(wireIn);
   },
@@ -35,17 +36,23 @@ export function ProductView() {
     queryKey: ["product"],
     queryFn: () => http.getProduct(),
     suspendRenderization: true,
-  })
+  });
+
+  const [code, setCode] = React.useState(product.data.code);
+  const form = useForm<
+    {
+      price: Product["price"];
+    }
+  >({
+    defaultValues: {
+      price: product.data.price,
+    },
+  });
 
   const { data, isLoading, error } = product;
 
-  if (isLoading) {
-    return <Box><Text>Loading...</Text></Box>;
-  }
-
-  if (error) {
-    return <Box><Text>Error: {error.message}</Text></Box>;
-  }
+  if (isLoading) return <Box><Text>Loading...</Text></Box>;
+  if (error) return <Box><Text>Error: {error.message}</Text></Box>;
 
   return (
     <Box className="p-6">
@@ -73,7 +80,7 @@ export function ProductView() {
             </Text>
             <form>
               <InputTextPrimal
-                defaultValue={data?.price}
+                {...form.register("price", { required: true })}
               />
             </form>
           </Box>
@@ -88,12 +95,22 @@ export function ProductView() {
             </Text>
             <form>
               <InputTextPrimal
-                defaultValue={data?.code}
+                defaultValue={code}
+                onChange={(e) => setCode(e.target.value)}
               />
             </form>
           </Box>
         </Box>
       ))}
+
+      <Box>
+        <Text>
+          React.useState: {code}
+        </Text>
+        <Text>
+          React.hookForm: {form.getValues().price}
+        </Text>
+      </Box>
     </Box>
   );
 }
