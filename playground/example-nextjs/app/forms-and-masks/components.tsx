@@ -7,6 +7,58 @@ import { useAsyncStateQuery } from "@omariosouto/common-ui-web/state";
 import { InputTextPrimal } from "@omariosouto/common-ui-web/components-primal";
 import { Box, Text } from "@omariosouto/common-ui-web/components";
 
+// [Masks]
+
+interface TextMask<Config = unknown> {
+  mask: (value: string, config?: Config) => string;
+  unmask: (value: string, config?: Config) => string;
+}
+
+function createTextMask<Config = unknown>({
+  mask,
+  unmask,
+}: {
+  mask: (value: string, config: Config) => string;
+  unmask: (value: string, config: Config) => string;
+}): TextMask<Config> {
+  return {
+    mask: (value: string, config: Config = {} as Config) => {
+      return mask(value, config);
+    },
+    unmask: (value: string, config: Config = {} as Config) => {
+      return unmask(value, config);
+    }
+  };
+}
+
+const priceMask = createTextMask<{
+  currency: string;
+  lang: string;
+}>({
+  mask(value, config) {
+    return `${config.currency} ${value}`;
+  },
+  unmask(value, config) {
+    return `${config.currency} ${value}`;
+  }
+});
+
+const masks = {
+  price: priceMask,
+  code: createTextMask({
+    mask(value) {
+      return value.replace(/(\d{4})(\d{4})/, "$1-$2");
+    },
+    unmask(value) {
+      return value.replace(/-/g, "");
+    }
+  }),
+};
+
+
+// ==================================================
+// ==================================================
+
 // Wire Layer
 const ProductSchema = s.object({
   name: s.string(),
@@ -61,12 +113,16 @@ export function ProductView() {
         <Box className="mb-8" key={currency}>
           {currency === "USD" && (
             <Text>
-              {currency} - You are trying to buy ${data?.name} for 🇺🇸 {data?.price} | 🇧🇷 {data?.price}
+              {currency} - You are trying to buy ${data.name} for
+              {" "}
+              🇺🇸 {masks.price.mask(data.price, { currency, lang: "en-US" })}
+              {" | "}
+              🇧🇷 {masks.price.mask(data.price, { currency, lang: "pt-BR" })}
             </Text>
           )}
           {currency === "BRL" && (
             <Text>
-              {currency} - Você está tentando comprar um ${data?.name} por 🇺🇸 {data?.price} | 🇧🇷 {data?.price}
+              {currency} - Você está tentando comprar um ${data.name} por 🇺🇸 {data.price} | 🇧🇷 {data.price}
             </Text>
           )}
 
