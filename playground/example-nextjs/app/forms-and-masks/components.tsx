@@ -54,6 +54,7 @@ const masks = {
 // Wire Layer
 const ProductSchema = s.object({
   name: s.string(),
+  // TODO: This should be BigDecimal instead of Money
   price: moneySchema, // -> Create custom type for this
   description: s.string(),
   code: s.string(),
