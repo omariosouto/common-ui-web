@@ -44,6 +44,7 @@ export function ProductView() {
       price: Product["price"];
     }
   >({
+    mode: "onChange",
     defaultValues: {
       price: product.data.price,
     },
