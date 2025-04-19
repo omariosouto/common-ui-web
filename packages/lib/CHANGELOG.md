@@ -1,3 +1,13 @@
+# 1.1.13 - 2025-4-19
+
+This pull request introduces new dependencies on `@omariosouto/common-core` and `@omariosouto/common-errors` libraries, while also refactoring code to utilize the `sleep` utility from `@omariosouto/common-core` instead of duplicating it locally. These changes improve code reuse and consistency across the project.
+### Dependency Updates:
+* Added `@omariosouto/common-core` and `@omariosouto/common-errors` as `peerDependencies` and `devDependencies` in `packages/lib/package.json`. This ensures these libraries are available for shared functionality and error handling. [[1]](diffhunk://#diff-f11fdfd051a9039f87286aa9c327c257e9619660394143b2d0d8dbade3c3abd5L37-R39) [[2]](diffhunk://#diff-f11fdfd051a9039f87286aa9c327c257e9619660394143b2d0d8dbade3c3abd5R67-R68)
+### Code Refactoring:
+* Updated `playground/example-nextjs/app/async-state/client.tsx` to use the `sleep` utility from `@omariosouto/common-core`, removing the locally defined `sleep` function.
+* Refactored `playground/example-nextjs/app/state/httpClient.tsx` to replace the local `sleep` function with the imported version from `@omariosouto/common-core`.
+
+
 # 1.1.12 - 2025-4-18
 
 Reference guide to guide abstractions related to asyncState on UI
