@@ -15,7 +15,9 @@ const moneyMask = createTextMask<{ // The Money library could provide this as an
   currency: string;
   lang: string;
 }>({
-  mask(value, config) {
+  mask(rawValue, config) {
+    const value = rawValue.replace(/[^0-9]/g, "");
+
     return new Intl.NumberFormat(config.lang, {
       style: "currency",
       currency: config.currency,
@@ -94,12 +96,16 @@ export function ProductView() {
 
   const { data, isLoading, error } = product;
 
+  // form.watch();
+
   if (isLoading) return <Box><Text>Loading...</Text></Box>;
   if (error) return <Box><Text>Error: {error.message}</Text></Box>;
 
+  form.watch();
+
   return (
     <Box className="p-6">
-      {["BRL", "USD"].map((currency, _) => (
+      {["BRL"].map((currency, _) => (
         <Box className="mb-8" key={currency}>
           {currency === "USD" && (
             <Text>

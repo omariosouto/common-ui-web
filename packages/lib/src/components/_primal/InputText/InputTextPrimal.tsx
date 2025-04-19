@@ -9,6 +9,7 @@ export interface TextMaskProtocol<Config = unknown> {
 
 interface InputTextPrimalProps<Config = unknown> {
   className?: string;
+  value?: string;
   defaultValue?: string;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   // mask={[masks.money, { currency, lang: "en-US" }]}
@@ -17,11 +18,20 @@ interface InputTextPrimalProps<Config = unknown> {
 export function InputTextPrimal<Config>({
   className,
   onChange,
-  defaultValue,
+  defaultValue: defaultValueRaw,
+  value: valueRaw,
   mask,
   ...props
 }: InputTextPrimalProps<Config>) {
   const [receveidMask, maskConfig] = mask ?? [];
+  const hasMask = Boolean(mask);
+  const defaultValue = hasMask
+    ? receveidMask?.mask(defaultValueRaw ?? "", maskConfig)
+    : defaultValueRaw;
+  const value = valueRaw;
+  // const value = hasMask
+  //   ? receveidMask?.mask(valueRaw ?? "", maskConfig)
+  //   : defaultValueRaw;
 
   return (
     <Tag
@@ -39,6 +49,7 @@ export function InputTextPrimal<Config>({
         }
         onChange?.(e);
       }}
+      value={value}
       defaultValue={defaultValue}
       {...props}
     />
