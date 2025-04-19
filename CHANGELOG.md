@@ -1,3 +1,9 @@
+# 1.1.14 - 2025-4-19
+
+This exposing motion.dev through the `animations` import of our project.
+The idea is to make the support for animations by optional, but available by default.
+
+
 # 1.1.13 - 2025-4-19
 
 This pull request introduces new dependencies on `@omariosouto/common-core` and `@omariosouto/common-errors` libraries, while also refactoring code to utilize the `sleep` utility from `@omariosouto/common-core` instead of duplicating it locally. These changes improve code reuse and consistency across the project.
